@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Essential Terracotta Hoodie — AG ATELIER</title>
+  <meta name="description" content="Shop the Essential Terracotta Hoodie at AG ATELIER. Premium French terry cotton, relaxed fit, available in S-XL. Free shipping on orders over $200." />
+
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/home.css" />
+  <link rel="stylesheet" href="../assets/css/product-detail.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <link rel="stylesheet" href="../assets/css/preloader.css" />
+  <script src="../assets/js/preloader.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</head>
+<body>
+  <div id="logged-in"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRELOADER OVERLAY (Pure CSS Progress Bar 0% - 100%)
+       Matches AG ATELIER UI/UX palette
+       ═══════════════════════════════════════════════ -->
+  <div class="site-preloader" id="site-preloader" aria-label="Loading AG ATELIER">
+    <div class="preloader-brand">AG ATELIER</div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar"></div>
+    </div>
+    <div class="preloader-percentage">Loading Website: </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       MANDATORY SIGN-IN GATE OVERLAY
+       Requires user to sign in before exploring the store
+       ═══════════════════════════════════════════════ -->
+  <div class="auth-gate-overlay" id="auth-gate-overlay" aria-modal="true" role="dialog">
+    <div class="auth-gate-card">
+      <span class="auth-gate-badge">MEMBER ACCESS ONLY</span>
+      <h2 class="auth-gate-title">Sign In Required</h2>
+      <p class="auth-gate-desc">
+        Welcome to <strong>AG ATELIER</strong>. Please sign in to your account
+        or register as a new member to access our store.
+      </p>
+      <div class="auth-gate-actions">
+        <a href="login.html" class="btn btn-primary btn-full" id="gate-btn-login">
+          🔑 Sign In to Continue
+        </a>
+        <a href="signup.html" class="btn btn-secondary btn-full" id="gate-btn-signup">
+          ✨ Create New Account
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- NAVBAR (identical on every page) -->
+  <header class="site-header" id="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="index.html" class="nav-logo" id="nav-logo">AG ATELIER</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html"   class="nav-link"        id="nav-home">Home</a></li>
+        <li><a href="shop.html"    class="nav-link active"  id="nav-shop">Shop</a></li>
+        <li><a href="about.html"   class="nav-link"        id="nav-about">About Us</a></li>
+        <li><a href="contact.html" class="nav-link"        id="nav-contact">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-search" id="nav-search-bar">
+          <span class="nav-search-icon" aria-hidden="true">🔍</span>
+          <input type="search" id="nav-search-input" placeholder="Search products…" aria-label="Search products" />
+        </div>
+        <a href="wishlist.html" class="nav-icon-btn" id="nav-wishlist-btn" aria-label="View wishlist">🤍<span class="badge" id="wishlist-badge">2</span></a>
+        <a href="cart.html" class="nav-icon-btn" id="nav-cart-btn" aria-label="View shopping cart">🛍<span class="badge" id="cart-badge">3</span></a>
+        <div class="nav-auth" id="nav-auth-guest">
+          <a href="login.html"  class="nav-login-link" id="nav-login-link">Login</a>
+          <a href="signup.html" class="nav-signup-btn"  id="nav-signup-btn">Sign Up</a>
+        </div>
+      </div>
+      <button type="button" class="hamburger" id="hamburger-btn"
+        data-action="toggle-menu" aria-label="Toggle navigation menu"
+        aria-expanded="false" aria-controls="nav-links">☰</button>
+    </nav>
+  </header>
+
+  <main id="main-content" class="page-content">
+    <div class="container">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="shop.html">Shop</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Essential Terracotta Hoodie</span>
+      </nav>
+
+      <!-- Product layout: gallery + info -->
+      <div class="product-layout" id="product-layout">
+
+        <!-- ── IMAGE GALLERY (left) ── -->
+        <div class="gallery" id="product-gallery">
+          <!-- Main large image -->
+          <div class="gallery-main" id="gallery-main">
+            <img
+              src="../assets/images/products/p001-thumb1.jpg"
+              alt="Essential Terracotta Hoodie — front view, worn by model in minimalist setting"
+              id="gallery-main-img"
+            />
+          </div>
+
+          <!-- Thumbnail row — clicking to swap main image is Evaluation 2 JS -->
+          <div class="gallery-thumbs" id="gallery-thumbs">
+            <button type="button" class="gallery-thumb active"
+              data-action="gallery-swap" data-src="../assets/images/products/p001-thumb1.jpg"
+              aria-label="View image 1">
+              <img src="../assets/images/products/p001-thumb1.jpg" alt="Hoodie front view" />
+            </button>
+            <button type="button" class="gallery-thumb"
+              data-action="gallery-swap" data-src="../assets/images/products/p001-thumb2.jpg"
+              aria-label="View image 2">
+              <img src="../assets/images/products/p001-thumb2.jpg" alt="Hoodie back detail" />
+            </button>
+            <button type="button" class="gallery-thumb"
+              data-action="gallery-swap" data-src="../assets/images/products/p001-thumb3.jpg"
+              aria-label="View image 3">
+              <img src="../assets/images/products/p001-thumb3.jpg" alt="Hoodie pocket detail" />
+            </button>
+            <button type="button" class="gallery-thumb"
+              data-action="gallery-swap" data-src="../assets/images/products/p001-thumb4.jpg"
+              aria-label="View image 4">
+              <img src="../assets/images/products/p001-thumb4.jpg" alt="Hoodie worn outdoors" />
+            </button>
+          </div>
+        </div>
+
+        <!-- ── PRODUCT INFO (right) ── -->
+        <div class="product-info" id="product-info">
+
+          <h1 class="product-title" id="product-title">Essential Terracotta Hoodie</h1>
+
+          <!-- Price + rating row -->
+          <div class="product-price-row">
+            <span class="product-price" id="product-price">$85.00</span>
+            <div class="product-rating">
+              <span class="stars" aria-label="4.8 out of 5 stars">★★★★★</span>
+              <span>4.8/5 (124 reviews)</span>
+            </div>
+          </div>
+
+          <!-- Stock status -->
+          <div class="product-stock stock-status">
+            <span class="stock-dot in-stock"></span>
+            <span id="product-stock-text">In Stock</span>
+          </div>
+
+          <!-- Size selector -->
+          <div class="option-section" id="size-section">
+            <span class="option-label">Size</span>
+            <div class="size-selector" id="size-selector" role="group" aria-label="Select size">
+              <button type="button" class="size-btn" data-size="S"
+                data-action="select-size" data-product-id="p001">S</button>
+              <button type="button" class="size-btn selected" data-size="M"
+                data-action="select-size" data-product-id="p001">M</button>
+              <button type="button" class="size-btn" data-size="L"
+                data-action="select-size" data-product-id="p001">L</button>
+              <button type="button" class="size-btn" data-size="XL"
+                data-action="select-size" data-product-id="p001">XL</button>
+            </div>
+          </div>
+
+          <!-- Color selector -->
+          <div class="option-section" id="color-section">
+            <span class="option-label">Color</span>
+            <div class="color-selector" id="color-selector" role="group" aria-label="Select color">
+              <button type="button" class="color-btn selected"
+                style="background-color: #B5533C;"
+                aria-label="Terracotta (selected)"
+                data-action="select-color" data-color="terracotta" data-product-id="p001"></button>
+              <button type="button" class="color-btn"
+                style="background-color: #1a1a1a;"
+                aria-label="Onyx Black"
+                data-action="select-color" data-color="black" data-product-id="p001"></button>
+              <button type="button" class="color-btn"
+                style="background-color: #d6d0c8; border: 1px solid #ccc;"
+                aria-label="Stone Grey"
+                data-action="select-color" data-color="stone" data-product-id="p001"></button>
+            </div>
+          </div>
+
+          <!-- Quantity stepper -->
+          <div class="quantity-section" id="quantity-section">
+            <div class="quantity-stepper" id="quantity-stepper">
+              <!-- Minus button — inert until Evaluation 2 JS adds event listener -->
+              <button type="button" class="qty-btn" id="qty-minus"
+                data-action="qty-decrease" data-product-id="p001"
+                aria-label="Decrease quantity">−</button>
+              <span class="qty-display" id="qty-display" aria-live="polite">1</span>
+              <!-- Plus button — inert until Evaluation 2 JS adds event listener -->
+              <button type="button" class="qty-btn" id="qty-plus"
+                data-action="qty-increase" data-product-id="p001"
+                aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          <!-- Action buttons -->
+          <div class="product-actions" id="product-actions">
+            <!-- Add to Cart — inert until Evaluation 2 -->
+            <button
+              type="button"
+              class="btn-add-to-cart"
+              id="btn-add-to-cart"
+              data-action="add-to-cart"
+              data-product-id="p001"
+            >🛍 Add to Cart</button>
+
+            <!-- Add to Wishlist — inert until Evaluation 2 -->
+            <button
+              type="button"
+              class="btn-add-wishlist"
+              id="btn-add-wishlist"
+              data-action="toggle-wishlist"
+              data-product-id="p001"
+              aria-label="Add Essential Terracotta Hoodie to wishlist"
+            >♡</button>
+          </div>
+
+          <!-- Info accordion sections (stacked — no JS tabs yet) -->
+          <div class="info-accordion" id="info-accordion">
+
+            <!-- Description section -->
+            <div class="accordion-item" id="accordion-description">
+              <div class="accordion-header">
+                <span>Description</span>
+                <span class="accordion-chevron" aria-hidden="true">∨</span>
+              </div>
+              <div class="accordion-body">
+                <p>The Essential Terracotta Hoodie is crafted from 380gsm French Terry cotton for a substantial, premium feel. The relaxed boxy silhouette is cut from a single piece of fabric to eliminate side seams, ensuring a clean drape and long-lasting structure.</p>
+                <ul>
+                  <li>380gsm French Terry cotton</li>
+                  <li>Relaxed boxy fit — size up for an oversized look</li>
+                  <li>Ribbed cuffs and hem</li>
+                  <li>Kangaroo pocket</li>
+                  <li>Garment dyed for a lived-in feel</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Size Guide section -->
+            <div class="accordion-item" id="accordion-size-guide">
+              <div class="accordion-header">
+                <span>Size Guide</span>
+                <span class="accordion-chevron" aria-hidden="true">∨</span>
+              </div>
+              <div class="accordion-body">
+                <table class="size-guide-table" aria-label="Size guide table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Size</th>
+                      <th scope="col">Chest (in)</th>
+                      <th scope="col">Length (in)</th>
+                      <th scope="col">Sleeve (in)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>S</td><td>38–40</td><td>27</td><td>34</td></tr>
+                    <tr><td>M</td><td>41–43</td><td>28</td><td>35</td></tr>
+                    <tr><td>L</td><td>44–46</td><td>29</td><td>36</td></tr>
+                    <tr><td>XL</td><td>47–49</td><td>30</td><td>37</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Reviews section -->
+            <div class="accordion-item" id="accordion-reviews">
+              <div class="accordion-header">
+                <span>Reviews (124)</span>
+                <span class="accordion-chevron" aria-hidden="true">∨</span>
+              </div>
+              <div class="accordion-body">
+                <div class="review-item">
+                  <div class="review-header">
+                    <span class="reviewer-name">Jordan M.</span>
+                    <span class="review-date">Oct 2024</span>
+                  </div>
+                  <div class="star-rating">★★★★★</div>
+                  <p class="review-body">Absolutely love this hoodie. The weight is perfect for autumn, and the terracotta color is even more beautiful in person. Runs slightly large — I sized down and love the fit.</p>
+                </div>
+                <div class="review-item">
+                  <div class="review-header">
+                    <span class="reviewer-name">Priya S.</span>
+                    <span class="review-date">Sep 2024</span>
+                  </div>
+                  <div class="star-rating">★★★★☆</div>
+                  <p class="review-body">Great quality. The fabric is thick and feels premium. Ordering the Black colorway next.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- END ACCORDION -->
+
+        </div>
+        <!-- END PRODUCT INFO -->
+
+      </div>
+      <!-- END PRODUCT LAYOUT -->
+
+      <!-- YOU MAY ALSO LIKE section -->
+      <section class="related-section" id="related-products" aria-label="Related products">
+        <h2>You May Also Like</h2>
+        <div class="related-grid" id="related-grid">
+
+          <article class="product-card" id="related-p002">
+            <div class="product-card-image">
+              <img src="../assets/images/products/p002-trousers.jpg" alt="Classic White Tee" />
+              <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p007" aria-label="Add to wishlist">🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name"><a href="product-1.html">Classic White Tee</a></h3>
+              <div class="product-card-price"><span class="price-current">$35.00</span></div>
+            </div>
+          </article>
+
+          <article class="product-card" id="related-p014">
+            <div class="product-card-image">
+              <img src="../assets/images/products/p014-denim.jpg" alt="Tailored Cargo Pant" />
+              <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p014" aria-label="Add to wishlist">🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name"><a href="product-2.html">Tailored Cargo Pant</a></h3>
+              <div class="product-card-price"><span class="price-current">$120.00</span></div>
+            </div>
+          </article>
+
+          <article class="product-card" id="related-p009">
+            <div class="product-card-image">
+              <img src="../assets/images/products/p009-overshirt.jpg" alt="Canvas Overshirt" />
+              <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p009" aria-label="Add to wishlist">🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name"><a href="product-1.html">Canvas Overshirt</a></h3>
+              <div class="product-card-price"><span class="price-current">$95.00</span></div>
+            </div>
+          </article>
+
+          <article class="product-card" id="related-p004">
+            <div class="product-card-image">
+              <img src="../assets/images/products/p004-beanie.jpg" alt="Ribbed Beanie" />
+              <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p004" aria-label="Add to wishlist">🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name"><a href="product-1.html">Ribbed Beanie</a></h3>
+              <div class="product-card-price"><span class="price-current">$28.00</span></div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="../assets/js/store.js"></script>
+</body>
+</html>

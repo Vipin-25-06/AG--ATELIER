@@ -1,0 +1,348 @@
+/* ============================================================
+   navbar.css — Fixed navigation bar present on every page.
+   Includes: logo, nav links, search, icons, auth buttons,
+   hamburger (mobile), badge counters, and logout toast.
+   ============================================================ */
+
+/* ──────────────────────────────────────────────
+   SITE HEADER WRAPPER
+   position:fixed keeps it pinned to the top of the
+   viewport while the user scrolls. z-index:1000 ensures
+   it always sits above all other page content.
+   ────────────────────────────────────────────── */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  border-bottom: 1px solid #F5F1EC;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+/* ──────────────────────────────────────────────
+   NAVBAR INNER CONTAINER
+   Flexbox row: logo | nav links | right-side icons
+   ────────────────────────────────────────────── */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 2.5rem;
+  gap: 2rem;
+}
+
+/* ──────────────────────────────────────────────
+   LOGO
+   Brand name styled with Poppins, semi-bold.
+   Links back to the home page on all pages.
+   ────────────────────────────────────────────── */
+.nav-logo {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.nav-logo:hover {
+  color: #B5533C;
+}
+
+/* ──────────────────────────────────────────────
+   PRIMARY NAV LINKS (desktop)
+   The <nav> containing the main site links.
+   On mobile these are hidden and toggled via JS
+   (Evaluation 2). For now they just stack.
+   ────────────────────────────────────────────── */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1A1A1A;
+  position: relative;
+  padding-block: 0.5rem;
+  transition: color 0.15s ease;
+}
+
+/* Underline accent on hover */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #B5533C;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.nav-link:hover {
+  color: #B5533C;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+/* Active page link styling — add class="nav-link active"
+   to the link that matches the current page */
+.nav-link.active {
+  color: #B5533C;
+}
+
+/* ──────────────────────────────────────────────
+   RIGHT SIDE — SEARCH + ICONS + AUTH BUTTONS
+   ────────────────────────────────────────────── */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+/* ──────────────────────────────────────────────
+   SEARCH INPUT
+   Compact search field in the navbar. Collapses
+   on mobile to just an icon (JS toggle in Eval 2).
+   ────────────────────────────────────────────── */
+.nav-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #F5F1EC;
+  border-radius: 9999px;
+  padding: 0.4rem 0.875rem;
+  border: 1px solid transparent;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.nav-search:focus-within {
+  border-color: #B5533C;
+  background-color: #ffffff;
+}
+
+.nav-search-icon {
+  font-size: 1rem;
+  color: #56423e;
+  line-height: 1;
+}
+
+.nav-search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.875rem;
+  color: #1A1A1A;
+  width: 160px;
+}
+
+.nav-search input::placeholder {
+  color: #56423e;
+}
+
+/* ──────────────────────────────────────────────
+   ICON BUTTONS (wishlist, cart, profile)
+   Minimum 44px touch target for accessibility.
+   position:relative so the badge can be positioned.
+   ────────────────────────────────────────────── */
+.nav-icon-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 0.75rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #1A1A1A;
+  font-size: 1.25rem;
+  transition: color 0.15s ease, background-color 0.15s ease;
+  text-decoration: none;
+}
+
+.nav-icon-btn:hover {
+  color: #B5533C;
+  background-color: #F5F1EC;
+}
+
+/* Cart / wishlist badge counter
+   JS NOTE: In Evaluation 2, JS will update the text
+   inside .badge to reflect the actual cart/wishlist count. */
+.badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background-color: #B5533C;
+  color: #ffffff;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* ──────────────────────────────────────────────
+   AUTH LINKS (Guest state — shown on all pages
+   except account.html which shows logged-in state)
+   ────────────────────────────────────────────── */
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-login-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1A1A1A;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  transition: color 0.15s ease;
+}
+
+.nav-login-link:hover {
+  color: #B5533C;
+}
+
+.nav-signup-btn {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #B5533C;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.75rem;
+  transition: background-color 0.15s ease;
+}
+
+.nav-signup-btn:hover {
+  background-color: #953C27;
+}
+
+/* ──────────────────────────────────────────────
+   LOGGED-IN NAV STATE (used only on account.html)
+   Shows user avatar, name, and a Logout button.
+   In Evaluation 2, JS will switch between guest/logged
+   states dynamically based on session data.
+   ────────────────────────────────────────────── */
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 2px solid #F5F1EC;
+}
+
+.nav-user-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1A1A1A;
+}
+
+/* Logout button — type="button" so it does nothing until
+   JS adds an event listener in Evaluation 2. The JS will
+   clear the session and redirect to index.html. */
+.btn-logout {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  background-color: transparent;
+  border: 1.5px solid rgba(26, 26, 26, 0.15);
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-logout:hover {
+  border-color: #B5533C;
+  color: #B5533C;
+}
+
+/* ──────────────────────────────────────────────
+   HAMBURGER BUTTON (mobile only)
+   Shown on small screens via responsive.css.
+   In Evaluation 2, JS will toggle .nav-mobile-open
+   on the nav to show/hide nav links.
+   ────────────────────────────────────────────── */
+.hamburger {
+  display: none; /* Hidden on desktop — shown in responsive.css */
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #1A1A1A;
+  border-radius: 0.75rem;
+  transition: background-color 0.15s ease;
+}
+
+.hamburger:hover {
+  background-color: #F5F1EC;
+}
+
+/* ──────────────────────────────────────────────
+   LOGOUT TOAST MESSAGE
+   Only added to index.html (the home page).
+   Uses the HTML `hidden` attribute to be invisible
+   by default. In Evaluation 2, JS removes `hidden`
+   to show it after logout. The exact wording
+   "You have been logged out" is required by the rubric.
+   ────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  top: calc(80px + 1rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  background-color: #1A1A1A;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0px 16px 48px rgba(26, 26, 26, 0.16);
+  white-space: nowrap;
+  /* This element is hidden by the `hidden` HTML attribute.
+     CSS still applies but the element won't be visible.
+     Evaluation 2 JS will call element.removeAttribute('hidden')
+     to make it appear. */
+}
+
+/* When hidden attribute is removed the toast is visible */
+.toast:not([hidden]) {
+  display: block;
+}

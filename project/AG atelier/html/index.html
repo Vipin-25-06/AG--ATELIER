@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AG ATELIER — Essentials for the Modern Wardrobe</title>
+  <meta name="description" content="Shop curated, minimalist clothing essentials at AG ATELIER. Premium streetwear for the modern wardrobe — tops, trousers, outerwear, and accessories." />
+
+  <!-- CSS: load order matters — base first, then components, then page-specific, then responsive last -->
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/footer.css" />
+  <link rel="stylesheet" href="../assets/css/home.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <link rel="stylesheet" href="../assets/css/preloader.css" />
+  <script src="../assets/js/preloader.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</head>
+<body>
+  <div id="logged-in"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRELOADER OVERLAY (Pure CSS Progress Bar 0% - 100%)
+       Matches AG ATELIER UI/UX palette
+       ═══════════════════════════════════════════════ -->
+  <div class="site-preloader" id="site-preloader" aria-label="Loading AG ATELIER">
+    <div class="preloader-brand">AG ATELIER</div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar"></div>
+    </div>
+    <div class="preloader-percentage">Loading Website: </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       MANDATORY SIGN-IN GATE OVERLAY
+       Requires user to sign in before exploring the store
+       ═══════════════════════════════════════════════ -->
+  <div class="auth-gate-overlay" id="auth-gate-overlay" aria-modal="true" role="dialog">
+    <div class="auth-gate-card">
+      <span class="auth-gate-badge">MEMBER ACCESS ONLY</span>
+      <h2 class="auth-gate-title">Sign In Required</h2>
+      <p class="auth-gate-desc">
+        Welcome to <strong>AG ATELIER</strong>. Please sign in to your account
+        or register as a new member to access our store.
+      </p>
+      <div class="auth-gate-actions">
+        <a href="login.html" class="btn btn-primary btn-full" id="gate-btn-login">
+          🔑 Sign In to Continue
+        </a>
+        <a href="signup.html" class="btn btn-secondary btn-full" id="gate-btn-signup">
+          ✨ Create New Account
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       LOGOUT TOAST (home page only)
+       Hidden by default using the HTML `hidden` attribute.
+       Evaluation 2 JS: document.getElementById('logout-toast')
+       .removeAttribute('hidden') to display this after logout.
+       The exact text "You have been logged out" is required by rubric.
+       ═══════════════════════════════════════════════ -->
+  <div id="logout-toast" class="toast" hidden>You have been logged out</div>
+
+  <!-- ═══════════════════════════════════════════════
+       SITE HEADER / NAVBAR (identical on every page)
+       Fixed to the top — do not change markup between pages.
+       ═══════════════════════════════════════════════ -->
+  <header class="site-header" id="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+
+      <!-- Logo: links back to home on every page -->
+      <a href="index.html" class="nav-logo" id="nav-logo">AG ATELIER</a>
+
+      <!-- Primary nav links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html"   class="nav-link active" id="nav-home">Home</a></li>
+        <li><a href="shop.html"    class="nav-link"        id="nav-shop">Shop</a></li>
+        <li><a href="about.html"   class="nav-link"        id="nav-about">About Us</a></li>
+        <li><a href="contact.html" class="nav-link"        id="nav-contact">Contact Us</a></li>
+      </ul>
+
+      <!-- Right side: search + icons + auth buttons -->
+      <div class="nav-right">
+
+        <!-- Search input -->
+        <div class="nav-search" id="nav-search-bar">
+          <span class="nav-search-icon" aria-hidden="true">🔍</span>
+          <input
+            type="search"
+            id="nav-search-input"
+            placeholder="Search products…"
+            aria-label="Search products"
+          />
+        </div>
+
+        <!-- Wishlist icon button -->
+        <a href="wishlist.html" class="nav-icon-btn" id="nav-wishlist-btn"
+           aria-label="View wishlist">
+          🤍
+          <!-- JS NOTE: Evaluation 2 will update this badge count dynamically -->
+          <span class="badge" id="wishlist-badge" aria-label="2 items in wishlist">2</span>
+        </a>
+
+        <!-- Cart icon button -->
+        <a href="cart.html" class="nav-icon-btn" id="nav-cart-btn"
+           aria-label="View shopping cart">
+          🛍
+          <!-- JS NOTE: Evaluation 2 will update this badge count dynamically -->
+          <span class="badge" id="cart-badge" aria-label="3 items in cart">3</span>
+        </a>
+
+        <!-- GUEST STATE: Login + Sign Up links (shown on all pages except account.html) -->
+        <div class="nav-auth" id="nav-auth-guest">
+          <a href="login.html"  class="nav-login-link" id="nav-login-link">Login</a>
+          <a href="signup.html" class="nav-signup-btn" id="nav-signup-btn">Sign Up</a>
+        </div>
+
+      </div>
+
+      <!-- Hamburger button (mobile only — shown via responsive.css)
+           JS NOTE: Evaluation 2 adds/removes 'nav-open' class on
+           site-header to show/hide the nav-links dropdown. -->
+      <button
+        type="button"
+        class="hamburger"
+        id="hamburger-btn"
+        data-action="toggle-menu"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="nav-links"
+      >☰</button>
+
+    </nav>
+  </header>
+  <!-- END NAVBAR -->
+
+  <!-- ═══════════════════════════════════════════════
+       PAGE MAIN CONTENT
+       ═══════════════════════════════════════════════ -->
+  <main id="main-content" class="page-content">
+
+    <!-- ─────────────────────────────────────────
+         HERO SECTION
+         Full-width banner with background image,
+         headline, and Shop Now CTA button.
+         ───────────────────────────────────────── -->
+    <section class="hero" id="hero" aria-label="Hero banner">
+      <!-- Hero background image -->
+      <img
+        src="../assets/images/banners/hero-bg.jpg"
+        alt="Couple walking in stylish minimal outfits on a city street"
+        class="hero-bg"
+        id="hero-bg-img"
+      />
+      <!-- Dark overlay for text readability -->
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <!-- Hero text content -->
+      <div class="hero-content">
+        <h1 class="hero-title" id="hero-title">
+          Essentials for the<br />Modern Wardrobe
+        </h1>
+        <p class="hero-subtitle" id="hero-subtitle">
+          Curated essentials for the modern minimalist.
+        </p>
+        <a href="shop.html" class="btn btn-primary" id="hero-cta">
+          Shop Now →
+        </a>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────
+         SHOP BY CATEGORY SECTION
+         4 category cards: Men, Women, Kids, Accessories
+         ───────────────────────────────────────── -->
+    <section class="categories-section section" id="categories" aria-label="Shop by category">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="categories-title">Shop by Category</h2>
+        </div>
+
+        <div class="categories-grid" id="categories-grid">
+
+          <!-- Category Card: Men -->
+          <a href="shop.html?category=men" class="category-card" id="cat-men" aria-label="Shop Men's collection">
+            <img src="../assets/images/banners/cat-men.jpg"
+                 alt="Men's clothing category — casual and formal wear" />
+            <div class="category-card-overlay">
+              <span class="category-card-name">Men</span>
+            </div>
+          </a>
+
+          <!-- Category Card: Women -->
+          <a href="shop.html?category=women" class="category-card" id="cat-women" aria-label="Shop Women's collection">
+            <img src="../assets/images/banners/cat-women.jpg"
+                 alt="Women's clothing category — modern minimalist styles" />
+            <div class="category-card-overlay">
+              <span class="category-card-name">Women</span>
+            </div>
+          </a>
+
+          <!-- Category Card: Kids -->
+          <a href="shop.html?category=kids" class="category-card" id="cat-kids" aria-label="Shop Kids' collection">
+            <img src="../assets/images/banners/cat-kids.jpg"
+                 alt="Kids' clothing category — comfortable and playful styles" />
+            <div class="category-card-overlay">
+              <span class="category-card-name">Kids</span>
+            </div>
+          </a>
+
+          <!-- Category Card: Accessories -->
+          <a href="shop.html?category=accessories" class="category-card" id="cat-accessories" aria-label="Shop Accessories">
+            <img src="../assets/images/banners/cat-accessories.jpg"
+                 alt="Accessories category — bags, belts, and more" />
+            <div class="category-card-overlay">
+              <span class="category-card-name">Accessories</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────
+         NEW ARRIVALS SECTION
+         A small grid of featured product cards
+         ───────────────────────────────────────── -->
+    <section class="section" id="new-arrivals" aria-label="New arrivals">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="arrivals-title">New Arrivals</h2>
+          <a href="shop.html" class="view-all-link" id="view-all-arrivals">View All →</a>
+        </div>
+
+        <div class="products-grid" id="arrivals-grid">
+
+          <!-- Product Card 1 — Heavyweight Boxy Tee -->
+          <article class="product-card" id="card-p001">
+            <div class="product-card-image">
+              <a href="product-1.html" aria-label="View Heavyweight Boxy Tee">
+                <img src="../assets/images/products/p001-tee.jpg"
+                     alt="Heavyweight Boxy Tee in olive green, minimalist cut" />
+              </a>
+              <!-- Wishlist button
+                   JS NOTE: data-action & data-product-id hook for Evaluation 2 -->
+              <button
+                type="button"
+                class="btn-wishlist"
+                data-action="toggle-wishlist"
+                data-product-id="p001"
+                aria-label="Add Heavyweight Boxy Tee to wishlist"
+              >🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name">
+                <a href="product-1.html">Heavyweight Boxy Tee</a>
+              </h3>
+              <div class="product-card-rating">
+                <span class="stars" aria-label="4.5 out of 5 stars">★★★★☆</span>
+                <span class="rating-value">4.5</span>
+              </div>
+              <div class="product-card-price">
+                <span class="price">$85.00</span>
+              </div>
+              <!-- Add to Cart button
+                   JS NOTE: data-action & data-product-id hook for Evaluation 2 -->
+              <button
+                type="button"
+                class="btn-add-cart"
+                data-action="add-to-cart"
+                data-product-id="p001"
+              >🛍 Add to Cart</button>
+            </div>
+          </article>
+
+          <!-- Product Card 2 — Tailored Wide-Leg Trousers -->
+          <article class="product-card" id="card-p002">
+            <div class="product-card-image">
+              <a href="product-2.html" aria-label="View Tailored Wide-Leg Trousers">
+                <img src="../assets/images/products/p002-trousers.jpg"
+                     alt="Tailored Wide-Leg Trousers in black, high-waist silhouette" />
+              </a>
+              <button
+                type="button"
+                class="btn-wishlist"
+                data-action="toggle-wishlist"
+                data-product-id="p002"
+                aria-label="Add Tailored Wide-Leg Trousers to wishlist"
+              >🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name">
+                <a href="product-2.html">Tailored Wide-Leg Trousers</a>
+              </h3>
+              <div class="product-card-rating">
+                <span class="stars" aria-label="4.8 out of 5 stars">★★★★★</span>
+                <span class="rating-value">4.8</span>
+              </div>
+              <div class="product-card-price">
+                <span class="price">$145.00</span>
+              </div>
+              <button
+                type="button"
+                class="btn-add-cart"
+                data-action="add-to-cart"
+                data-product-id="p002"
+              >🛍 Add to Cart</button>
+            </div>
+          </article>
+
+          <!-- Product Card 3 — Technical Bomber Jacket -->
+          <article class="product-card" id="card-p003">
+            <div class="product-card-image">
+              <img src="../assets/images/products/p003-jacket.jpg"
+                   alt="Technical Bomber Jacket in sage green, modern utility style" />
+              <button
+                type="button"
+                class="btn-wishlist"
+                data-action="toggle-wishlist"
+                data-product-id="p003"
+                aria-label="Add Technical Bomber Jacket to wishlist"
+              >♡</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name">
+                <a href="product-3.html">Technical Bomber Jacket</a>
+              </h3>
+              <div class="product-card-rating">
+                <span class="stars" aria-label="4.7 out of 5 stars">★★★★☆</span>
+                <span class="rating-value">4.7</span>
+              </div>
+              <div class="product-card-price">
+                <span class="price">$220.00</span>
+              </div>
+              <button
+                type="button"
+                class="btn-add-cart"
+                data-action="add-to-cart"
+                data-product-id="p003"
+              >🛍 Add to Cart</button>
+            </div>
+          </article>
+
+          <!-- Product Card 4 — Ribbed Knit Beanie -->
+          <article class="product-card" id="card-p004">
+            <div class="product-card-image">
+              <img src="../assets/images/products/p004-beanie.jpg"
+                   alt="Ribbed Knit Beanie in warm rust orange" />
+              <button
+                type="button"
+                class="btn-wishlist"
+                data-action="toggle-wishlist"
+                data-product-id="p004"
+                aria-label="Add Ribbed Knit Beanie to wishlist"
+              >🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name">
+                <a href="shop.html">Ribbed Knit Beanie</a>
+              </h3>
+              <div class="product-card-rating">
+                <span class="stars" aria-label="4.6 out of 5 stars">★★★★☆</span>
+                <span class="rating-value">4.6</span>
+              </div>
+              <div class="product-card-price">
+                <span class="price">$45.00</span>
+              </div>
+              <button
+                type="button"
+                class="btn-add-cart"
+                data-action="add-to-cart"
+                data-product-id="p004"
+              >🛍 Add to Cart</button>
+            </div>
+          </article>
+
+          <!-- Product Card 5 — Oversized Poplin Shirt -->
+          <article class="product-card" id="card-p005">
+            <div class="product-card-image">
+              <img src="../assets/images/products/p005-shirt.jpg"
+                   alt="Oversized Poplin Shirt in crisp white, relaxed fit" />
+              <button
+                type="button"
+                class="btn-wishlist"
+                data-action="toggle-wishlist"
+                data-product-id="p005"
+                aria-label="Add Oversized Poplin Shirt to wishlist"
+              >🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name">
+                <a href="shop.html">Oversized Poplin Shirt</a>
+              </h3>
+              <div class="product-card-rating">
+                <span class="stars" aria-label="4.4 out of 5 stars">★★★★☆</span>
+                <span class="rating-value">4.4</span>
+              </div>
+              <div class="product-card-price">
+                <span class="price">$110.00</span>
+              </div>
+              <button
+                type="button"
+                class="btn-add-cart"
+                data-action="add-to-cart"
+                data-product-id="p005"
+              >🛍 Add to Cart</button>
+            </div>
+          </article>
+
+          <!-- Product Card 6 — Essential Crossbody Bag -->
+          <article class="product-card" id="card-p006">
+            <div class="product-card-image">
+              <img src="../assets/images/products/p006-bag.jpg"
+                   alt="Essential Crossbody Bag in black canvas" />
+              <button
+                type="button"
+                class="btn-wishlist"
+                data-action="toggle-wishlist"
+                data-product-id="p006"
+                aria-label="Add Essential Crossbody Bag to wishlist"
+              >🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name">
+                <a href="shop.html">Essential Crossbody Bag</a>
+              </h3>
+              <div class="product-card-rating">
+                <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+                <span class="rating-value">5.0</span>
+              </div>
+              <div class="product-card-price">
+                <span class="price">$85.00</span>
+              </div>
+              <button
+                type="button"
+                class="btn-add-cart"
+                data-action="add-to-cart"
+                data-product-id="p006"
+              >🛍 Add to Cart</button>
+            </div>
+          </article>
+
+        </div>
+        <!-- END arrivals-grid -->
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────
+         FEATURES / BENEFITS STRIP
+         Free Shipping, Easy Returns, Secure Payment
+         ───────────────────────────────────────── -->
+    <section class="features-strip" id="features" aria-label="Store benefits">
+      <div class="container">
+        <div class="features-grid">
+
+          <div class="feature-item" id="feature-shipping">
+            <span class="feature-icon" aria-hidden="true">🚚</span>
+            <h3 class="feature-title">Free Shipping</h3>
+            <p class="feature-text">On all domestic orders over $200.</p>
+          </div>
+
+          <div class="feature-item" id="feature-returns">
+            <span class="feature-icon" aria-hidden="true">↩️</span>
+            <h3 class="feature-title">Easy Returns</h3>
+            <p class="feature-text">30-day hassle-free return policy.</p>
+          </div>
+
+          <div class="feature-item" id="feature-payment">
+            <span class="feature-icon" aria-hidden="true">🔒</span>
+            <h3 class="feature-title">Secure Payment</h3>
+            <p class="feature-text">Your data is always protected.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────
+         NEWSLETTER SECTION
+         Email sign-up strip
+         action="#" — Evaluation 2 JS handles submission.
+         ───────────────────────────────────────── -->
+    <section class="newsletter-section" id="newsletter" aria-label="Newsletter sign-up">
+      <div class="container">
+        <h2 id="newsletter-title">Join the Inner Circle</h2>
+        <p>Get early access to new arrivals and exclusive member offers.</p>
+        <!-- action='#' is a placeholder — Evaluation 2 JavaScript will intercept
+             this submission and handle it properly (save email, show confirmation). -->
+        <form
+          class="newsletter-form"
+          id="newsletter-form"
+          action="#"
+          method="get"
+        >
+          <input
+            type="email"
+            id="newsletter-email"
+            name="email"
+            placeholder="Your email address"
+            required
+            aria-label="Email address for newsletter"
+          />
+          <button type="submit" class="btn btn-primary" id="newsletter-submit">
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+  <!-- END MAIN CONTENT -->
+
+  <!-- ═══════════════════════════════════════════════
+       SITE FOOTER (only on index.html — per rubric)
+       Contains About Us and Contact Us sections
+       with a contact form (required by rubric).
+       ═══════════════════════════════════════════════ -->
+  <footer class="site-footer" id="site-footer" aria-label="Site footer">
+    <div class="container">
+
+      <div class="footer-top">
+
+        <!-- Brand column -->
+        <div class="footer-brand" id="footer-brand">
+          <a href="index.html" class="footer-logo">AG ATELIER</a>
+          <p>Redefining the modern wardrobe through intentional design and uncompromising quality.</p>
+        </div>
+
+        <!-- About Us column -->
+        <nav id="footer-about-nav" aria-label="About navigation">
+          <h3 class="footer-col-title">About Us</h3>
+          <ul class="footer-col-links">
+            <li><a href="about.html"   id="footer-about-link">Our Story</a></li>
+            <li><a href="about.html"   id="footer-mission-link">Mission &amp; Values</a></li>
+            <li><a href="shop.html"    id="footer-collections-link">Collections</a></li>
+          </ul>
+        </nav>
+
+        <!-- Contact Us column -->
+        <nav id="footer-contact-nav" aria-label="Contact navigation">
+          <h3 class="footer-col-title">Contact Us</h3>
+          <ul class="footer-col-links">
+            <li><a href="contact.html" id="footer-contact-link">Get in Touch</a></li>
+            <li><a href="contact.html" id="footer-support-link">Support</a></li>
+            <li><a href="mailto:hello@agatelier.com" id="footer-email-link">hello@agatelier.com</a></li>
+          </ul>
+        </nav>
+
+        <!-- Contact form column (required by rubric: "Contact Us includes a form")
+             action='#' is a placeholder — Evaluation 2 JS handles submission. -->
+        <div id="footer-contact-form-col">
+          <h3 class="footer-col-title">Send a Message</h3>
+          <form
+            class="footer-contact-form"
+            id="footer-contact-form"
+            action="#"
+            method="get"
+          >
+            <input
+              type="text"
+              id="footer-form-name"
+              name="name"
+              placeholder="Your name"
+              required
+              aria-label="Your full name"
+            />
+            <input
+              type="email"
+              id="footer-form-email"
+              name="email"
+              placeholder="Your email"
+              required
+              aria-label="Your email address"
+            />
+            <textarea
+              id="footer-form-message"
+              name="message"
+              placeholder="Your message…"
+              required
+              rows="3"
+              aria-label="Your message"
+            ></textarea>
+            <button type="submit" class="btn btn-primary btn-sm" id="footer-form-submit">
+              Send →
+            </button>
+          </form>
+        </div>
+
+      </div>
+      <!-- END footer-top -->
+
+      <!-- Footer bottom bar -->
+      <div class="footer-bottom" id="footer-bottom">
+        <p class="footer-copyright" id="footer-copyright">
+          &copy; 2024 AG ATELIER. All rights reserved.
+        </p>
+        <nav class="footer-bottom-links" aria-label="Legal links">
+          <a href="#" id="footer-privacy">Privacy Policy</a>
+          <a href="#" id="footer-terms">Terms of Service</a>
+        </nav>
+      </div>
+
+    </div>
+  </footer>
+  <!-- END FOOTER -->
+
+  <script src="../assets/js/store.js"></script>
+</body>
+</html>

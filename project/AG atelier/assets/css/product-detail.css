@@ -1,0 +1,467 @@
+/* ============================================================
+   product-detail.css — Styles for product-1/2/3.html pages.
+   Includes: image gallery, size chips, color swatches,
+   quantity stepper, action buttons, info sections,
+   and "You May Also Like" related products section.
+   ============================================================ */
+
+/* ──────────────────────────────────────────────
+   PRODUCT DETAIL MAIN LAYOUT
+   Two-column grid: gallery (left) + info (right)
+   ────────────────────────────────────────────── */
+.product-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  padding-block: 2rem 4rem;
+  align-items: start;
+}
+
+/* ──────────────────────────────────────────────
+   IMAGE GALLERY (left column)
+   Main image + row of thumbnails below.
+   Clicking thumbnails to swap the main image is
+   a Evaluation 2 JS feature — for now thumbnails
+   are static display images.
+   ────────────────────────────────────────────── */
+.gallery {
+  position: sticky; /* Keeps gallery visible while scrolling right column */
+  top: calc(80px + 1rem);
+}
+
+.gallery-main {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background-color: #F5F1EC;
+  margin-bottom: 0.75rem;
+}
+
+.gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Thumbnail row — 4 small images */
+.gallery-thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.gallery-thumb {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.15s ease;
+  background-color: #F5F1EC;
+}
+
+.gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Active (selected) thumbnail gets a terracotta border */
+.gallery-thumb.active {
+  border-color: #B5533C;
+}
+
+.gallery-thumb:hover {
+  border-color: #89726d;
+}
+
+/* ──────────────────────────────────────────────
+   PRODUCT INFO (right column)
+   Name, price, rating, stock, size/color pickers,
+   quantity stepper, and action buttons.
+   ────────────────────────────────────────────── */
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Product name heading */
+.product-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  line-height: 1.2;
+}
+
+/* Price + rating row */
+.product-price-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #B5533C;
+}
+
+.product-price-original {
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: #56423e;
+  text-decoration: line-through;
+}
+
+/* Rating with stars and review count */
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #56423e;
+}
+
+.product-rating .stars {
+  color: #f4b400;
+  letter-spacing: 0.05em;
+}
+
+/* In-stock / out-of-stock indicator */
+.product-stock {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* ──────────────────────────────────────────────
+   OPTION SELECTOR SECTION HEADER
+   Label above size chips or color swatches
+   ────────────────────────────────────────────── */
+.option-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.option-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1A1A1A;
+}
+
+/* ──────────────────────────────────────────────
+   SIZE CHIPS
+   Square chip buttons for S/M/L/XL/XXL.
+   One is hardcoded as .selected to show visual state.
+   JS in Evaluation 2 will handle actual selection logic.
+   ────────────────────────────────────────────── */
+.size-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.size-btn {
+  min-width: 52px;
+  height: 44px;
+  padding-inline: 0.75rem;
+  border: 1.5px solid rgba(26, 26, 26, 0.15);
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1A1A1A;
+  background: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease,
+              color 0.15s ease;
+}
+
+.size-btn:hover {
+  border-color: #1A1A1A;
+}
+
+/* Selected state — dark background, white text */
+.size-btn.selected {
+  background-color: #1A1A1A;
+  border-color: #1A1A1A;
+  color: #ffffff;
+}
+
+/* Out of stock size — disabled visual */
+.size-btn:disabled,
+.size-btn.unavailable {
+  opacity: 0.35;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* ──────────────────────────────────────────────
+   COLOR SWATCHES
+   24px circular buttons for color selection.
+   Selected swatch gets a 2px offset ring.
+   ────────────────────────────────────────────── */
+.color-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.color-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.15s ease;
+  padding: 0;
+  background-clip: padding-box;
+}
+
+.color-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Selected color swatch — offset border using box-shadow trick */
+.color-btn.selected {
+  box-shadow: 0 0 0 2px #ffffff,
+              0 0 0 4px #1A1A1A;
+}
+
+/* ──────────────────────────────────────────────
+   QUANTITY STEPPER
+   Minus button — number display — Plus button.
+   All type="button" so they do nothing until JS
+   in Evaluation 2 attaches event listeners.
+   ────────────────────────────────────────────── */
+.quantity-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.quantity-stepper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1.5px solid rgba(26, 26, 26, 0.15);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.qty-btn {
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: #ffffff;
+  color: #1A1A1A;
+  font-size: 1.25rem;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.qty-btn:hover {
+  background-color: #F5F1EC;
+}
+
+.qty-display {
+  width: 52px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  border-left: 1px solid rgba(26, 26, 26, 0.15);
+  border-right: 1px solid rgba(26, 26, 26, 0.15);
+  padding-block: 0.75rem;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ──────────────────────────────────────────────
+   ACTION BUTTONS ROW
+   Add to Cart (primary, wide) + Add to Wishlist (icon only)
+   ────────────────────────────────────────────── */
+.product-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Main Add to Cart button — takes most of the width */
+.btn-add-to-cart {
+  flex: 1;
+  padding: 1rem;
+  background-color: #B5533C;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.btn-add-to-cart:hover {
+  background-color: #953C27;
+  transform: translateY(-1px);
+}
+
+/* Square wishlist button next to Add to Cart */
+.btn-add-wishlist {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(26, 26, 26, 0.15);
+  border-radius: 0.75rem;
+  background: #ffffff;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A1A1A;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-add-wishlist:hover {
+  border-color: #B5533C;
+  color: #B5533C;
+}
+
+/* ──────────────────────────────────────────────
+   INFO ACCORDIONS (Description, Size Guide, Reviews)
+   Stacked sections — styled as accordion UI.
+   In Evaluation 2 JS will handle expand/collapse.
+   For now they display as expanded sections.
+   ────────────────────────────────────────────── */
+.info-accordion {
+  border-top: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+.accordion-item {
+  border-bottom: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 1.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1A1A1A;
+  cursor: pointer;
+}
+
+.accordion-chevron {
+  font-size: 0.875rem;
+  color: #56423e;
+  transition: transform 0.15s ease;
+}
+
+.accordion-body {
+  padding-bottom: 1.25rem;
+  font-size: 0.875rem;
+  color: #56423e;
+  line-height: 1.7;
+}
+
+.accordion-body ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Size guide table */
+.size-guide-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin-top: 0.75rem;
+}
+
+.size-guide-table th,
+.size-guide-table td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(26, 26, 26, 0.15);
+  text-align: center;
+}
+
+.size-guide-table th {
+  background-color: #F5F1EC;
+  font-weight: 600;
+}
+
+/* Review item inside reviews accordion */
+.review-item {
+  padding-block: 1rem;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.reviewer-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.review-date {
+  font-size: 0.75rem;
+  color: #56423e;
+}
+
+.review-body {
+  font-size: 0.875rem;
+  color: #56423e;
+  line-height: 1.6;
+}
+
+/* ──────────────────────────────────────────────
+   "YOU MAY ALSO LIKE" section below the product
+   4-column grid of related product cards
+   ────────────────────────────────────────────── */
+.related-section {
+  padding-block: 4rem;
+  border-top: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+.related-section h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}

@@ -1,0 +1,156 @@
+/* ============================================================
+   footer.css — Footer styles.
+   Per rubric: the footer only appears on index.html.
+   Contains About Us, Contact Us links, and copyright.
+   ============================================================ */
+
+/* ──────────────────────────────────────────────
+   SITE FOOTER WRAPPER
+   Linen background to differentiate from page body.
+   Only linked from index.html via <footer> tag.
+   ────────────────────────────────────────────── */
+.site-footer {
+  background-color: #F5F1EC;
+  border-top: 1px solid rgba(26, 26, 26, 0.15);
+  padding-block: 4rem 2rem;
+}
+
+/* ──────────────────────────────────────────────
+   FOOTER TOP SECTION
+   Brand logo + nav columns side by side on desktop.
+   ────────────────────────────────────────────── */
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+/* Footer brand column */
+.footer-brand .footer-logo {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.footer-brand p {
+  font-size: 0.875rem;
+  color: #56423e;
+  line-height: 1.7;
+  max-width: 260px;
+}
+
+/* ──────────────────────────────────────────────
+   FOOTER NAV COLUMN (About Us & Contact Us)
+   Each column has a heading and a list of links.
+   Per rubric: must include About Us and Contact Us.
+   ────────────────────────────────────────────── */
+.footer-col-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1A1A1A;
+  margin-bottom: 1.25rem;
+}
+
+.footer-col-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-col-links a {
+  font-size: 0.875rem;
+  color: #56423e;
+  transition: color 0.15s ease;
+}
+
+.footer-col-links a:hover {
+  color: #B5533C;
+}
+
+/* ──────────────────────────────────────────────
+   FOOTER CONTACT FORM
+   A compact contact form inside the footer.
+   Per rubric: Contact Us section must include a form.
+   action="#" method="get" — placeholder for Evaluation 2 JS.
+   ────────────────────────────────────────────── */
+.footer-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-contact-form input,
+.footer-contact-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(26, 26, 26, 0.15);
+  border-radius: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: #1A1A1A;
+  background-color: #ffffff;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.footer-contact-form input:focus,
+.footer-contact-form textarea:focus {
+  border-color: #B5533C;
+}
+
+.footer-contact-form input::placeholder,
+.footer-contact-form textarea::placeholder {
+  color: #89726d;
+}
+
+.footer-contact-form textarea {
+  min-height: 90px;
+  resize: none;
+}
+
+.footer-contact-form .btn {
+  padding: 0.75rem 1.5rem;
+}
+
+/* ──────────────────────────────────────────────
+   FOOTER BOTTOM BAR
+   Divider + copyright line
+   ────────────────────────────────────────────── */
+.footer-bottom {
+  border-top: 1px solid rgba(26, 26, 26, 0.15);
+  padding-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-copyright {
+  font-size: 0.75rem;
+  color: #56423e;
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-bottom-links a {
+  font-size: 0.75rem;
+  color: #56423e;
+  transition: color 0.15s ease;
+}
+
+.footer-bottom-links a:hover {
+  color: #B5533C;
+}

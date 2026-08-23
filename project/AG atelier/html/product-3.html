@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architect Canvas Tote — AG ATELIER</title>
+  <meta name="description" content="Shop the Architect Canvas Tote at AG ATELIER. Heavy canvas, leather handles, interior pockets. A minimal everyday carry bag." />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/home.css" />
+  <link rel="stylesheet" href="../assets/css/product-detail.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <link rel="stylesheet" href="../assets/css/preloader.css" />
+  <script src="../assets/js/preloader.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</head>
+<body>
+  <div id="logged-in"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRELOADER OVERLAY (Pure CSS Progress Bar 0% - 100%)
+       Matches AG ATELIER UI/UX palette
+       ═══════════════════════════════════════════════ -->
+  <div class="site-preloader" id="site-preloader" aria-label="Loading AG ATELIER">
+    <div class="preloader-brand">AG ATELIER</div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar"></div>
+    </div>
+    <div class="preloader-percentage">Loading Website: </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       MANDATORY SIGN-IN GATE OVERLAY
+       Requires user to sign in before exploring the store
+       ═══════════════════════════════════════════════ -->
+  <div class="auth-gate-overlay" id="auth-gate-overlay" aria-modal="true" role="dialog">
+    <div class="auth-gate-card">
+      <span class="auth-gate-badge">MEMBER ACCESS ONLY</span>
+      <h2 class="auth-gate-title">Sign In Required</h2>
+      <p class="auth-gate-desc">
+        Welcome to <strong>AG ATELIER</strong>. Please sign in to your account
+        or register as a new member to access our store.
+      </p>
+      <div class="auth-gate-actions">
+        <a href="login.html" class="btn btn-primary btn-full" id="gate-btn-login">
+          🔑 Sign In to Continue
+        </a>
+        <a href="signup.html" class="btn btn-secondary btn-full" id="gate-btn-signup">
+          ✨ Create New Account
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- NAVBAR -->
+  <header class="site-header" id="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="index.html" class="nav-logo" id="nav-logo">AG ATELIER</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html"   class="nav-link"       id="nav-home">Home</a></li>
+        <li><a href="shop.html"    class="nav-link active" id="nav-shop">Shop</a></li>
+        <li><a href="about.html"   class="nav-link"       id="nav-about">About Us</a></li>
+        <li><a href="contact.html" class="nav-link"       id="nav-contact">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-search" id="nav-search-bar">
+          <span class="nav-search-icon" aria-hidden="true">🔍</span>
+          <input type="search" id="nav-search-input" placeholder="Search products…" aria-label="Search products" />
+        </div>
+        <a href="wishlist.html" class="nav-icon-btn" id="nav-wishlist-btn" aria-label="View wishlist">🤍<span class="badge" id="wishlist-badge">2</span></a>
+        <a href="cart.html"     class="nav-icon-btn" id="nav-cart-btn"     aria-label="View shopping cart">🛍<span class="badge" id="cart-badge">3</span></a>
+        <div class="nav-auth" id="nav-auth-guest">
+          <a href="login.html"  class="nav-login-link" id="nav-login-link">Login</a>
+          <a href="signup.html" class="nav-signup-btn"  id="nav-signup-btn">Sign Up</a>
+        </div>
+      </div>
+      <button type="button" class="hamburger" id="hamburger-btn" data-action="toggle-menu"
+        aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </nav>
+  </header>
+
+  <main id="main-content" class="page-content">
+    <div class="container">
+
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a><span>/</span>
+        <a href="shop.html">Shop</a><span>/</span>
+        <span aria-current="page">Architect Canvas Tote</span>
+      </nav>
+
+      <div class="product-layout" id="product-layout">
+
+        <!-- Gallery -->
+        <div class="gallery" id="product-gallery">
+          <div class="gallery-main" id="gallery-main">
+            <img src="../assets/images/products/p003-jacket.jpg"
+                 alt="Architect Canvas Tote in onyx black with leather handles"
+                 id="gallery-main-img" />
+          </div>
+          <div class="gallery-thumbs" id="gallery-thumbs">
+            <button type="button" class="gallery-thumb active"
+              data-action="gallery-swap" data-src="../assets/images/products/p003-jacket.jpg"
+              aria-label="View image 1"><img src="../assets/images/products/p003-jacket.jpg" alt="Front view" /></button>
+            <button type="button" class="gallery-thumb"
+              data-action="gallery-swap" data-src="../assets/images/products/p003-jacket.jpg"
+              aria-label="View image 2"><img src="../assets/images/products/p003-jacket.jpg" alt="Interior view" /></button>
+            <button type="button" class="gallery-thumb"
+              data-action="gallery-swap" data-src="../assets/images/products/p003-jacket.jpg"
+              aria-label="View image 3"><img src="../assets/images/products/p003-jacket.jpg" alt="Handle detail" /></button>
+            <button type="button" class="gallery-thumb"
+              data-action="gallery-swap" data-src="../assets/images/products/p003-jacket.jpg"
+              aria-label="View image 4"><img src="../assets/images/products/p003-jacket.jpg" alt="Size reference" /></button>
+          </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info" id="product-info">
+          <h1 class="product-title" id="product-title">Architect Canvas Tote</h1>
+
+          <div class="product-price-row">
+            <span class="product-price" id="product-price">$120.00</span>
+            <div class="product-rating">
+              <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+              <span>5.0/5 (56 reviews)</span>
+            </div>
+          </div>
+
+          <div class="product-stock stock-status">
+            <span class="stock-dot in-stock"></span>
+            <span id="product-stock-text">In Stock</span>
+          </div>
+
+          <!-- Size selector — bags use "One Size" -->
+          <div class="option-section" id="size-section">
+            <span class="option-label">Size</span>
+            <div class="size-selector" id="size-selector" role="group" aria-label="Select size">
+              <button type="button" class="size-btn selected" data-size="OS"
+                data-action="select-size" data-product-id="p003">One Size</button>
+            </div>
+          </div>
+
+          <!-- Color selector -->
+          <div class="option-section" id="color-section">
+            <span class="option-label">Color</span>
+            <div class="color-selector" id="color-selector" role="group" aria-label="Select color">
+              <button type="button" class="color-btn selected"
+                style="background-color: #1a1a1a;" aria-label="Onyx Black (selected)"
+                data-action="select-color" data-color="black" data-product-id="p003"></button>
+              <button type="button" class="color-btn"
+                style="background-color: #f5f1ec; border: 1px solid #ccc;" aria-label="Natural"
+                data-action="select-color" data-color="natural" data-product-id="p003"></button>
+              <button type="button" class="color-btn"
+                style="background-color: #8c7b5a;" aria-label="Tan"
+                data-action="select-color" data-color="tan" data-product-id="p003"></button>
+            </div>
+          </div>
+
+          <!-- Quantity stepper -->
+          <div class="quantity-section" id="quantity-section">
+            <div class="quantity-stepper" id="quantity-stepper">
+              <button type="button" class="qty-btn" id="qty-minus"
+                data-action="qty-decrease" data-product-id="p003" aria-label="Decrease quantity">−</button>
+              <span class="qty-display" id="qty-display" aria-live="polite">1</span>
+              <button type="button" class="qty-btn" id="qty-plus"
+                data-action="qty-increase" data-product-id="p003" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          <!-- Action buttons -->
+          <div class="product-actions" id="product-actions">
+            <button type="button" class="btn-add-to-cart" id="btn-add-to-cart"
+              data-action="add-to-cart" data-product-id="p003">🛍 Add to Cart</button>
+            <button type="button" class="btn-add-wishlist" id="btn-add-wishlist"
+              data-action="toggle-wishlist" data-product-id="p003"
+              aria-label="Add Architect Canvas Tote to wishlist">♡</button>
+          </div>
+
+          <!-- Info accordion -->
+          <div class="info-accordion" id="info-accordion">
+            <div class="accordion-item" id="accordion-description">
+              <div class="accordion-header"><span>Description</span><span class="accordion-chevron">∨</span></div>
+              <div class="accordion-body">
+                <p>The Architect Canvas Tote is built from 16oz waxed canvas with saddle-leather handles and base reinforcement. Large enough for a 15" laptop, designed to look better with age.</p>
+                <ul>
+                  <li>16oz waxed canvas exterior</li>
+                  <li>Full-grain saddle leather handles and base reinforcement</li>
+                  <li>Interior laptop sleeve (fits up to 15")</li>
+                  <li>2 interior pockets + 1 zip pocket</li>
+                  <li>Dimensions: 16"W × 14"H × 6"D</li>
+                </ul>
+              </div>
+            </div>
+            <div class="accordion-item" id="accordion-size-guide">
+              <div class="accordion-header"><span>Care &amp; Materials</span><span class="accordion-chevron">∨</span></div>
+              <div class="accordion-body">
+                <p>Spot clean only with a damp cloth. Re-wax annually with canvas wax to maintain weather resistance. The leather will develop a natural patina over time — this is intentional.</p>
+              </div>
+            </div>
+            <div class="accordion-item" id="accordion-reviews">
+              <div class="accordion-header"><span>Reviews (56)</span><span class="accordion-chevron">∨</span></div>
+              <div class="accordion-body">
+                <div class="review-item">
+                  <div class="review-header"><span class="reviewer-name">Sasha K.</span><span class="review-date">Nov 2024</span></div>
+                  <div class="star-rating">★★★★★</div>
+                  <p class="review-body">This bag is an absolute workhorse. I take it everywhere — office, market, weekend trips. The canvas feels incredibly durable.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Related products -->
+      <section class="related-section" id="related-products" aria-label="Related products">
+        <h2>You May Also Like</h2>
+        <div class="related-grid" id="related-grid">
+          <article class="product-card" id="related-p012">
+            <div class="product-card-image">
+              <img src="../assets/images/products/p012-tote.jpg" alt="Structured Canvas Tote" />
+              <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p012" aria-label="Add to wishlist">🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name"><a href="product-3.html">Structured Canvas Tote</a></h3>
+              <div class="product-card-price"><span class="price-current">$145.00</span></div>
+            </div>
+          </article>
+          <article class="product-card" id="related-p006">
+            <div class="product-card-image">
+              <img src="../assets/images/products/p006-bag.jpg" alt="Crossbody Bag" />
+              <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p006" aria-label="Add to wishlist">🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name"><a href="product-3.html">Essential Crossbody Bag</a></h3>
+              <div class="product-card-price"><span class="price-current">$85.00</span></div>
+            </div>
+          </article>
+          <article class="product-card" id="related-p001">
+            <div class="product-card-image">
+              <img src="../assets/images/products/p001-tee.jpg" alt="Heavyweight Hoodie" />
+              <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p001" aria-label="Add to wishlist">🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name"><a href="product-1.html">Essential Hoodie</a></h3>
+              <div class="product-card-price"><span class="price-current">$85.00</span></div>
+            </div>
+          </article>
+          <article class="product-card" id="related-p004">
+            <div class="product-card-image">
+              <img src="../assets/images/products/p004-beanie.jpg" alt="Ribbed Beanie" />
+              <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p004" aria-label="Add to wishlist">🤍</button>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-name"><a href="product-1.html">Ribbed Beanie</a></h3>
+              <div class="product-card-price"><span class="price-current">$28.00</span></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="../assets/js/store.js"></script>
+</body>
+</html>

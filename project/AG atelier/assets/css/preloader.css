@@ -1,0 +1,221 @@
+/* ============================================================
+   preloader.css / auth-gate — Preloader & Mandatory Sign-In Gate
+   Brand: AG ATELIER | Design System: Serene Threads
+   ============================================================ */
+
+/* ──────────────────────────────────────────────
+   1. SITE PRELOADER (Pure CSS3 Keyframes)
+   Full-screen loading overlay showing brand logo,
+   animated progress bar, and percentage counter (0-100%).
+   Fades out automatically after loading.
+   ────────────────────────────────────────────── */
+.site-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background-color: #F5F1EC; /* Linen background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  animation: preloaderFadeOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) 2.6s forwards;
+  pointer-events: all;
+}
+
+.skip-loader .site-preloader {
+  display: none;
+}
+
+@keyframes preloaderFadeOut {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  90% {
+    opacity: 0;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* Preloader brand logo */
+.preloader-brand {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1A1A1A;
+  animation: preloaderPulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes preloaderPulse {
+  0% { opacity: 0.7; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Preloader track */
+.preloader-progress-track {
+  width: 320px;
+  max-width: 80vw;
+  height: 8px;
+  background-color: rgba(26, 26, 26, 0.1);
+  border-radius: 9999px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Terracotta progress bar filling from 0% to 100% */
+.preloader-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #B5533C 0%, #953C27 100%);
+  border-radius: 9999px;
+  animation: preloaderFill 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes preloaderFill {
+  0%   { width: 0%; }
+  15%  { width: 18%; }
+  35%  { width: 42%; }
+  60%  { width: 70%; }
+  85%  { width: 92%; }
+  100% { width: 100%; }
+}
+
+/* Preloader percentage counter text */
+.preloader-percentage {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #56423e;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.preloader-percentage::after {
+  content: '0%';
+  animation: percentageCounter 2.4s steps(1) forwards;
+  color: #B5533C;
+}
+
+@keyframes percentageCounter {
+  0%   { content: '0%'; }
+  10%  { content: '14%'; }
+  25%  { content: '32%'; }
+  40%  { content: '52%'; }
+  55%  { content: '68%'; }
+  75%  { content: '85%'; }
+  90%  { content: '96%'; }
+  100% { content: '100%'; }
+}
+
+/* ──────────────────────────────────────────────
+   2. MANDATORY SIGN-IN GATE MODAL
+   Appears after loading for unauthenticated visitors.
+   Prompts user to sign in to access AG ATELIER.
+   ────────────────────────────────────────────── */
+/* Temporarily hidden for testing; Evaluation 2 JS will toggle this */
+.auth-gate-overlay {
+  display: none !important;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background-color: rgba(26, 26, 26, 0.75);
+  backdrop-filter: blur(8px);
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: gateFadeIn 0.5s ease 3.1s both;
+}
+
+@keyframes gateFadeIn {
+  0% { opacity: 0; visibility: hidden; }
+  100% { opacity: 1; visibility: visible; }
+}
+
+/* Target when user is logged in: add class .logged-in to body or gate has [hidden] */
+body.logged-in .auth-gate-overlay,
+.auth-gate-overlay[hidden] {
+  display: none !important;
+}
+
+.auth-gate-card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 2.5rem 2rem;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0px 16px 48px rgba(26, 26, 26, 0.2);
+  animation: cardSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 3.2s both;
+}
+
+@keyframes cardSlideUp {
+  0% { transform: translateY(24px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.auth-gate-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: #ffdad2;
+  color: #953C27;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.auth-gate-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 0.5rem;
+}
+
+.auth-gate-desc {
+  font-size: 0.875rem;
+  color: #56423e;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+.auth-gate-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.auth-gate-dismiss {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: #89726d;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-decoration: underline;
+}
+
+.auth-gate-dismiss:hover {
+  color: #1A1A1A;
+}
+
+/* Pure CSS state hack to hide auth gate after login redirect */
+#logged-in:target ~ .auth-gate-overlay {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

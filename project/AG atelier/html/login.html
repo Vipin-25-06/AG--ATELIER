@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — AG ATELIER</title>
+  <meta name="description" content="Log in to your AG ATELIER account to view orders, manage your wishlist, and checkout faster." />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/auth.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <link rel="stylesheet" href="../assets/css/preloader.css" />
+  <script src="../assets/js/preloader.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</head>
+<body>
+  <div id="logged-in"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRELOADER OVERLAY (Pure CSS Progress Bar 0% - 100%)
+       Matches AG ATELIER UI/UX palette
+       ═══════════════════════════════════════════════ -->
+  <div class="site-preloader" id="site-preloader" aria-label="Loading AG ATELIER">
+    <div class="preloader-brand">AG ATELIER</div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar"></div>
+    </div>
+    <div class="preloader-percentage">Loading Website: </div>
+  </div>
+
+
+  <!-- Auth pages don't use the main site-header.
+       The logo at the top links back to home. -->
+  <main id="main-content" class="auth-page">
+
+    <div class="auth-card" id="login-card">
+
+      <!-- Card header -->
+      <div style="text-align:center; margin-bottom: var(--space-3)">
+        <a href="index.html" style="font-family:var(--font-heading); font-size:1.25rem;
+          font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--color-onyx)">
+          AG ATELIER
+        </a>
+      </div>
+
+      <h1 class="auth-title" id="login-title">Welcome Back</h1>
+      <p class="auth-subtitle" id="login-subtitle">Sign in to continue to your account.</p>
+
+      <!-- Login form
+           action='#' method='get' — Evaluation 2 JS intercepts this submit.
+           HTML5 required and type="email" provide native validation. -->
+      <form class="auth-form" id="login-form" action="index.html#logged-in" method="get" novalidate>
+
+        <!-- Email field -->
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email Address</label>
+          <input
+            class="form-input"
+            type="email"
+            id="login-email"
+            name="email"
+            placeholder="you@example.com"
+            required
+            aria-required="true"
+            title="Please enter a valid email address"
+            autocomplete="email"
+          />
+        </div>
+
+        <!-- Password field -->
+        <div class="form-group">
+          <label class="form-label" for="login-password">Password</label>
+          <input
+            class="form-input"
+            type="password"
+            id="login-password"
+            name="password"
+            placeholder="Your password"
+            required
+            minlength="8"
+            aria-required="true"
+            title="Password must be at least 8 characters"
+            autocomplete="current-password"
+          />
+        </div>
+
+        <!-- Forgot password link -->
+        <a href="forgot-password.html" class="auth-forgot-link" id="forgot-password-link">
+          Forgot your password?
+        </a>
+
+        <!-- CAPTCHA BLOCK
+             The captcha code "A7F3K" is hardcoded here as a static placeholder.
+             Evaluation 2 JS will:
+             1. Generate a random 5-character captcha code on page load
+             2. Display it in #captcha-code-display
+             3. On form submit, compare input against generated code
+             4. Block submission if they don't match -->
+        <div class="form-group">
+          <span class="captcha-label">Security Check</span>
+          <div class="captcha-box" id="captcha-box">
+            <!-- Captcha code display — static for Evaluation 1 -->
+            <div class="captcha-code" id="captcha-code-display"
+              aria-label="CAPTCHA code: A7F3K. Type these characters below.">
+              <span class="captcha-text" aria-hidden="true" id="captcha-text">A7F3K</span>
+            </div>
+            <!-- Refresh button — inert until Evaluation 2 JS adds click handler -->
+            <button
+              type="button"
+              class="captcha-refresh"
+              id="captcha-refresh-btn"
+              data-action="refresh-captcha"
+              aria-label="Refresh CAPTCHA code"
+            >↻</button>
+          </div>
+          <input
+            class="captcha-input"
+            type="text"
+            id="captcha-input"
+            name="captcha"
+            placeholder="Type the code above"
+            required
+            autocomplete="off"
+            aria-label="Enter the CAPTCHA code shown above"
+            aria-describedby="captcha-code-display"
+          />
+        </div>
+
+        <!-- Submit button (changed to link for static HTML navigation) -->
+        <a href="account.html#profile" class="btn-auth-submit" id="btn-login-submit" style="display:block; text-align:center; text-decoration:none;">
+          Sign In →
+        </a>
+
+      </form>
+
+      <!-- Redirect to signup -->
+      <p class="auth-redirect" id="login-redirect">
+        Don't have an account?
+        <a href="signup.html" id="link-to-signup">Create one</a>
+      </p>
+
+      <!-- Back to home -->
+      <a href="index.html" class="auth-back-home" id="link-back-home">
+        ← Back to Home
+      </a>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

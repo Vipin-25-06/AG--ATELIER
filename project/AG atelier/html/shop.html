@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop All Products — AG ATELIER</title>
+  <meta name="description" content="Browse AG ATELIER's complete collection of minimalist clothing — tops, trousers, outerwear, bags, and accessories. Filter by size, color, and price." />
+
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/home.css" />
+  <link rel="stylesheet" href="../assets/css/shop.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <link rel="stylesheet" href="../assets/css/preloader.css" />
+  <script src="../assets/js/preloader.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</head>
+<body>
+  <div id="logged-in"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRELOADER OVERLAY (Pure CSS Progress Bar 0% - 100%)
+       Matches AG ATELIER UI/UX palette
+       ═══════════════════════════════════════════════ -->
+  <div class="site-preloader" id="site-preloader" aria-label="Loading AG ATELIER">
+    <div class="preloader-brand">AG ATELIER</div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar"></div>
+    </div>
+    <div class="preloader-percentage">Loading Website: </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       MANDATORY SIGN-IN GATE OVERLAY
+       Requires user to sign in before exploring the store
+       ═══════════════════════════════════════════════ -->
+  <div class="auth-gate-overlay" id="auth-gate-overlay" aria-modal="true" role="dialog">
+    <div class="auth-gate-card">
+      <span class="auth-gate-badge">MEMBER ACCESS ONLY</span>
+      <h2 class="auth-gate-title">Sign In Required</h2>
+      <p class="auth-gate-desc">
+        Welcome to <strong>AG ATELIER</strong>. Please sign in to your account
+        or register as a new member to access our store.
+      </p>
+      <div class="auth-gate-actions">
+        <a href="login.html" class="btn btn-primary btn-full" id="gate-btn-login">
+          🔑 Sign In to Continue
+        </a>
+        <a href="signup.html" class="btn btn-secondary btn-full" id="gate-btn-signup">
+          ✨ Create New Account
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- NAVBAR (identical on every page) -->
+  <header class="site-header" id="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="index.html" class="nav-logo" id="nav-logo">AG ATELIER</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html"   class="nav-link"        id="nav-home">Home</a></li>
+        <li><a href="shop.html"    class="nav-link active"  id="nav-shop">Shop</a></li>
+        <li><a href="about.html"   class="nav-link"        id="nav-about">About Us</a></li>
+        <li><a href="contact.html" class="nav-link"        id="nav-contact">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-search" id="nav-search-bar">
+          <span class="nav-search-icon" aria-hidden="true">🔍</span>
+          <input type="search" id="nav-search-input" placeholder="Search products…" aria-label="Search products" />
+        </div>
+        <a href="wishlist.html" class="nav-icon-btn" id="nav-wishlist-btn" aria-label="View wishlist">
+          🤍<span class="badge" id="wishlist-badge">2</span>
+        </a>
+        <a href="cart.html" class="nav-icon-btn" id="nav-cart-btn" aria-label="View shopping cart">
+          🛍<span class="badge" id="cart-badge">3</span>
+        </a>
+        <div class="nav-auth" id="nav-auth-guest">
+          <a href="login.html"  class="nav-login-link" id="nav-login-link">Login</a>
+          <a href="signup.html" class="nav-signup-btn" id="nav-signup-btn">Sign Up</a>
+        </div>
+      </div>
+      <button type="button" class="hamburger" id="hamburger-btn"
+        data-action="toggle-menu" aria-label="Toggle navigation menu"
+        aria-expanded="false" aria-controls="nav-links">☰</button>
+    </nav>
+  </header>
+  <!-- END NAVBAR -->
+
+  <main id="main-content" class="page-content">
+    <div class="container">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb shop-breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Shop</span>
+      </nav>
+
+      <!-- Page heading -->
+      <div class="page-header">
+        <h1 id="shop-heading">All Products</h1>
+      </div>
+
+      <!-- Mobile filter bar (shown on tablet/mobile via responsive.css) -->
+      <div class="mobile-filter-bar" id="mobile-filter-bar">
+        <button type="button" class="btn-mobile-filter" id="btn-mobile-filter"
+          data-action="toggle-filter" aria-label="Open filter panel">
+          ⚙ Filter
+        </button>
+        <button type="button" class="btn-mobile-sort" id="btn-mobile-sort"
+          data-action="toggle-sort" aria-label="Open sort options">
+          ↕ Sort
+        </button>
+      </div>
+
+      <!-- Main shop layout: sidebar + product grid -->
+      <div class="shop-layout" id="shop-layout">
+
+        <!-- ─── FILTER SIDEBAR ─── -->
+        <aside class="filter-sidebar" id="filter-sidebar" aria-label="Product filters">
+          <h2 class="filter-sidebar-title">Filters</h2>
+
+          <!-- Category filter -->
+          <div class="filter-group" id="filter-category">
+            <h3 class="filter-group-title">Category</h3>
+            <div class="filter-options">
+              <label class="filter-option">
+                <input type="checkbox" name="category" value="men" id="filter-men" />
+                Men
+                <span class="filter-option-count">48</span>
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" name="category" value="women" id="filter-women" />
+                Women
+                <span class="filter-option-count">63</span>
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" name="category" value="kids" id="filter-kids" />
+                Kids
+                <span class="filter-option-count">22</span>
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" name="category" value="accessories" id="filter-accessories" />
+                Accessories
+                <span class="filter-option-count">31</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Price range filter -->
+          <div class="filter-group" id="filter-price">
+            <h3 class="filter-group-title">Price Range</h3>
+            <div class="price-range-inputs">
+              <input type="number" id="price-min" name="price-min"
+                placeholder="Min $" min="0" aria-label="Minimum price" />
+              <input type="number" id="price-max" name="price-max"
+                placeholder="Max $" min="0" aria-label="Maximum price" />
+            </div>
+          </div>
+
+          <!-- Size filter -->
+          <div class="filter-group" id="filter-size">
+            <h3 class="filter-group-title">Size</h3>
+            <div class="size-chips">
+              <button type="button" class="size-chip" data-size="XS">XS</button>
+              <button type="button" class="size-chip" data-size="S">S</button>
+              <button type="button" class="size-chip selected" data-size="M">M</button>
+              <button type="button" class="size-chip" data-size="L">L</button>
+              <button type="button" class="size-chip" data-size="XL">XL</button>
+              <button type="button" class="size-chip" data-size="XXL">XXL</button>
+              <button type="button" class="size-chip" data-size="OS">One Size</button>
+            </div>
+          </div>
+
+          <!-- Color filter -->
+          <div class="filter-group" id="filter-color">
+            <h3 class="filter-group-title">Color</h3>
+            <div class="color-swatches">
+              <button type="button" class="color-swatch selected"
+                style="background-color: #1a1a1a;"
+                aria-label="Filter by Black" data-color="black"></button>
+              <button type="button" class="color-swatch"
+                style="background-color: #ffffff; border: 1px solid #ddd;"
+                aria-label="Filter by White" data-color="white"></button>
+              <button type="button" class="color-swatch"
+                style="background-color: #f5f1ec;"
+                aria-label="Filter by Cream" data-color="cream"></button>
+              <button type="button" class="color-swatch"
+                style="background-color: #8c7b5a;"
+                aria-label="Filter by Tan" data-color="tan"></button>
+              <button type="button" class="color-swatch"
+                style="background-color: #B5533C;"
+                aria-label="Filter by Terracotta" data-color="terracotta"></button>
+              <button type="button" class="color-swatch"
+                style="background-color: #6b7a6e;"
+                aria-label="Filter by Sage" data-color="sage"></button>
+              <button type="button" class="color-swatch"
+                style="background-color: #4a5568;"
+                aria-label="Filter by Charcoal" data-color="charcoal"></button>
+            </div>
+          </div>
+
+          <!-- Rating filter -->
+          <div class="filter-group" id="filter-rating">
+            <h3 class="filter-group-title">Rating</h3>
+            <div class="filter-options">
+              <label class="filter-option">
+                <input type="radio" name="rating" value="4+" id="filter-rating-4" />
+                ★★★★☆ &amp; above
+              </label>
+              <label class="filter-option">
+                <input type="radio" name="rating" value="3+" id="filter-rating-3" />
+                ★★★☆☆ &amp; above
+              </label>
+            </div>
+          </div>
+
+          <button type="button" class="btn-clear-filters" id="btn-clear-filters"
+            data-action="clear-filters">Clear All Filters</button>
+        </aside>
+        <!-- END FILTER SIDEBAR -->
+
+        <!-- ─── SHOP MAIN CONTENT ─── -->
+        <div class="shop-main" id="shop-main">
+
+          <!-- Sort toolbar -->
+          <div class="shop-toolbar" id="shop-toolbar">
+            <p class="shop-results-count" id="results-count">Showing 18 products</p>
+            <div class="sort-select-wrapper">
+              <label class="sort-label" for="sort-select">Sort by:</label>
+              <select class="sort-select" id="sort-select" name="sort"
+                aria-label="Sort products">
+                <option value="featured">Featured</option>
+                <option value="newest">Newest First</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating">Top Rated</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Product grid — 18 hardcoded product cards -->
+          <div class="shop-grid" id="shop-product-grid">
+
+            <!-- Card 1 -->
+            <article class="product-card" id="shop-card-p001">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p001-tee.jpg" alt="Heavyweight Essential Hoodie in cream" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p001" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-1.html">Heavyweight Essential Hoodie</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★★</span><span class="rating-value">4.8</span></div>
+                <div class="product-card-price"><span class="price">$85.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p001">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="product-card" id="shop-card-p002">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p002-trousers.jpg" alt="Tactical Cargo Pants in grey" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p002" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-2.html">Tactical Cargo Pant</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★★</span><span class="rating-value">4.9</span></div>
+                <div class="product-card-price"><span class="price">$110.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p002">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 3 — SALE -->
+            <article class="product-card" id="shop-card-p007">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p007-studio-tee.jpg" alt="Abstract Studio Tee in white with graphic print" />
+                <span class="product-card-badge badge-tag badge-sale">SALE</span>
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p007" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-1.html">Abstract Studio Tee</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★☆</span><span class="rating-value">4.5</span></div>
+                <div class="product-card-price price-row">
+                  <span class="price-current">$35.00</span>
+                  <span class="price-original">$45.00</span>
+                </div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p007">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 4 -->
+            <article class="product-card" id="shop-card-p008">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p003-jacket.jpg" alt="Architect Canvas Tote bag in black" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p008" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-3.html">Architect Canvas Tote</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★★</span><span class="rating-value">5.0</span></div>
+                <div class="product-card-price"><span class="price">$60.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p008">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 5 -->
+            <article class="product-card" id="shop-card-p004">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p004-beanie.jpg" alt="Ribbed Knit Beanie in rust brown" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p004" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-1.html">Ribbed Knit Beanie</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★☆</span><span class="rating-value">4.7</span></div>
+                <div class="product-card-price"><span class="price">$40.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p004">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 6 -->
+            <article class="product-card" id="shop-card-p009">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p009-overshirt.jpg" alt="Linen Overshirt in natural" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p009" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-1.html">Linen Overshirt</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★★</span><span class="rating-value">4.9</span></div>
+                <div class="product-card-price"><span class="price">$125.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p009">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 7 -->
+            <article class="product-card" id="shop-card-p010">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p010-chinos.jpg" alt="Slim Chino Trousers in stone" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p010" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-2.html">Slim Chino Trousers</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★☆</span><span class="rating-value">4.3</span></div>
+                <div class="product-card-price"><span class="price">$95.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p010">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 8 — NEW -->
+            <article class="product-card" id="shop-card-p011">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p011-knit-sweater.jpg" alt="Mock Neck Knit Sweater in cream" />
+                <span class="product-card-badge badge-tag badge-new">NEW</span>
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p011" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-1.html">Mock Neck Knit Sweater</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★★</span><span class="rating-value">4.9</span></div>
+                <div class="product-card-price"><span class="price">$135.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p011">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 9 -->
+            <article class="product-card" id="shop-card-p012">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p012-tote.jpg" alt="Structured Canvas Tote in natural" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p012" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-3.html">Structured Canvas Tote</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★☆</span><span class="rating-value">4.6</span></div>
+                <div class="product-card-price"><span class="price">$145.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p012">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 10 -->
+            <article class="product-card" id="shop-card-p013">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p013-jogger.jpg" alt="Essential Jogger Pants in charcoal" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p013" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-2.html">Essential Jogger Pants</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★☆</span><span class="rating-value">4.4</span></div>
+                <div class="product-card-price"><span class="price">$75.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p013">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 11 — SALE -->
+            <article class="product-card" id="shop-card-p005">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p005-shirt.jpg" alt="Oversized Poplin Shirt in white" />
+                <span class="product-card-badge badge-tag badge-sale">SALE</span>
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p005" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-1.html">Oversized Poplin Shirt</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★☆</span><span class="rating-value">4.4</span></div>
+                <div class="product-card-price price-row">
+                  <span class="price-current">$85.00</span>
+                  <span class="price-original">$110.00</span>
+                </div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p005">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 12 -->
+            <article class="product-card" id="shop-card-p014">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p014-denim.jpg" alt="Vintage Wash Denim Jeans in dark blue" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p014" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-2.html">Vintage Wash Denim</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★★</span><span class="rating-value">4.8</span></div>
+                <div class="product-card-price"><span class="price">$89.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p014">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 13 -->
+            <article class="product-card" id="shop-card-p006">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p006-bag.jpg" alt="Essential Crossbody Bag in black" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p006" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-3.html">Essential Crossbody Bag</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★★</span><span class="rating-value">5.0</span></div>
+                <div class="product-card-price"><span class="price">$85.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p006">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 14 -->
+            <article class="product-card" id="shop-card-p015">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p015-bomber.jpg" alt="Technical Bomber Jacket in sage green" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p015" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-1.html">Technical Bomber Jacket</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★☆</span><span class="rating-value">4.7</span></div>
+                <div class="product-card-price"><span class="price">$220.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p015">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 15 -->
+            <article class="product-card" id="shop-card-p016">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p016-polo.jpg" alt="Pique Polo Shirt in ecru" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p016" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-1.html">Pique Polo Shirt</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★☆</span><span class="rating-value">4.2</span></div>
+                <div class="product-card-price"><span class="price">$65.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p016">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 16 — NEW -->
+            <article class="product-card" id="shop-card-p003">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p003-jacket.jpg" alt="Canvas Structure Tote in onyx black" />
+                <span class="product-card-badge badge-tag badge-new">NEW</span>
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p003" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-3.html">Canvas Structure Tote</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★★</span><span class="rating-value">4.9</span></div>
+                <div class="product-card-price"><span class="price">$120.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p003">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 17 -->
+            <article class="product-card" id="shop-card-p017">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p017-sweatpants.jpg" alt="French Terry Sweatpants in slate" />
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p017" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-2.html">French Terry Sweatpants</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★☆</span><span class="rating-value">4.5</span></div>
+                <div class="product-card-price"><span class="price">$68.00</span></div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p017">Add to Cart</button>
+              </div>
+            </article>
+
+            <!-- Card 18 — SALE -->
+            <article class="product-card" id="shop-card-p018">
+              <div class="product-card-image">
+                <img src="../assets/images/products/p018-vest.jpg" alt="Quilted Puffer Vest in olive" />
+                <span class="product-card-badge badge-tag badge-sale">SALE</span>
+                <button type="button" class="btn-wishlist" data-action="toggle-wishlist" data-product-id="p018" aria-label="Add to wishlist">🤍</button>
+              </div>
+              <div class="product-card-body">
+                <h3 class="product-card-name"><a href="product-1.html">Quilted Puffer Vest</a></h3>
+                <div class="product-card-rating"><span class="stars">★★★★☆</span><span class="rating-value">4.3</span></div>
+                <div class="product-card-price price-row">
+                  <span class="price-current">$95.00</span>
+                  <span class="price-original">$130.00</span>
+                </div>
+                <button type="button" class="btn-add-cart" data-action="add-to-cart" data-product-id="p018">Add to Cart</button>
+              </div>
+            </article>
+
+          </div>
+          <!-- END SHOP GRID -->
+
+          <!-- Load More button -->
+          <div class="shop-pagination" id="shop-pagination">
+            <button type="button" class="btn-load-more" id="btn-load-more"
+              data-action="load-more">Load More</button>
+          </div>
+
+        </div>
+        <!-- END SHOP MAIN -->
+
+      </div>
+      <!-- END SHOP LAYOUT -->
+
+    </div>
+  </main>
+
+  <script src="../assets/js/store.js"></script>
+</body>
+</html>

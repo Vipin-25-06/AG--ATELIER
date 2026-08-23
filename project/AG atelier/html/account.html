@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Account — AG ATELIER</title>
+  <meta name="description" content="Manage your AG ATELIER account. View orders, update your profile, manage addresses, and track shipments." />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <style>
+    /* ── ACCOUNT PAGE STYLES ── */
+    .account-layout {
+      display: grid; grid-template-columns: 240px 1fr;
+      gap: var(--space-8); padding-block: var(--space-8) var(--space-16);
+    }
+    /* Sidebar nav */
+    .account-sidebar {
+      position: sticky; top: calc(var(--navbar-height) + var(--space-4));
+      align-self: start; height: fit-content;
+    }
+    .account-user-card {
+      background-color: var(--color-linen); border-radius: var(--radius-md);
+      padding: var(--space-5); margin-bottom: var(--space-4); text-align: center;
+    }
+    .account-avatar {
+      width: 60px; height: 60px; border-radius: 50%;
+      background-color: var(--color-primary-mid); color: var(--color-white);
+      font-family: var(--font-heading); font-size: var(--text-2xl);
+      font-weight: var(--weight-bold); display: flex; align-items: center;
+      justify-content: center; margin: 0 auto var(--space-3);
+    }
+    .account-user-name { font-weight: var(--weight-semibold); font-size: var(--text-base); }
+    .account-user-email { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-1); }
+    /* Sidebar nav links */
+    .account-nav { display: flex; flex-direction: column; gap: var(--space-1); }
+    .account-nav-link {
+      display: flex; align-items: center; gap: var(--space-3);
+      padding: var(--space-3) var(--space-4); border-radius: var(--radius-md);
+      font-size: var(--text-sm); color: var(--color-onyx);
+      transition: background-color var(--transition-fast), color var(--transition-fast);
+    }
+    .account-nav-link:hover { background-color: var(--color-linen); color: var(--color-primary-mid); }
+    .account-nav-link.active { background-color: var(--color-primary-light); color: var(--color-primary); }
+    /* Main content */
+    .account-main { min-width: 0; }
+    .account-section { display: none; }
+    .account-section:target { display: block; }
+    /* Show orders by default when no hash is present, hide it when siblings are targeted */
+    .account-section:last-child { display: block; }
+    .account-section:target ~ .account-section:last-child { display: none; }
+    
+    .account-section-title {
+      font-family: var(--font-heading); font-size: var(--text-2xl);
+      font-weight: var(--weight-semibold); margin-bottom: var(--space-6);
+      padding-bottom: var(--space-4); border-bottom: 1px solid var(--color-outline-light);
+    }
+    /* Orders table */
+    .account-orders-table {
+      width: 100%; border-collapse: collapse; font-size: var(--text-sm);
+      background-color: var(--color-white); border-radius: var(--radius-md);
+      overflow: hidden; box-shadow: var(--shadow-card);
+    }
+    .account-orders-table th {
+      background-color: var(--color-linen); padding: var(--space-4) var(--space-5);
+      text-align: left; font-weight: var(--weight-semibold);
+      font-size: var(--text-xs); letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+    .account-orders-table td {
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--color-outline-light);
+    }
+    .account-orders-table tr:last-child td { border-bottom: none; }
+    /* Order status badges */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: var(--space-1);
+      padding: var(--space-1) var(--space-3); border-radius: var(--radius-full);
+      font-size: var(--text-xs); font-weight: var(--weight-semibold);
+    }
+    .status-delivered { background-color: #dcfce7; color: #166534; }
+    .status-shipped   { background-color: #dbeafe; color: #1d4ed8; }
+    .status-processing{ background-color: #fef9c3; color: #854d0e; }
+    /* View order link */
+    .order-view-link { font-size: var(--text-xs); color: var(--color-primary-mid); }
+    .order-view-link:hover { text-decoration: underline; }
+    @media (max-width: 992px) {
+      .account-layout { grid-template-columns: 1fr; }
+      .account-sidebar { position: static; }
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/css/preloader.css" />
+  <script src="../assets/js/preloader.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</head>
+<body>
+  <div id="logged-in"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRELOADER OVERLAY (Pure CSS Progress Bar 0% - 100%)
+       Matches AG ATELIER UI/UX palette
+       ═══════════════════════════════════════════════ -->
+  <div class="site-preloader" id="site-preloader" aria-label="Loading AG ATELIER">
+    <div class="preloader-brand">AG ATELIER</div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar"></div>
+    </div>
+    <div class="preloader-percentage">Loading Website: </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       MANDATORY SIGN-IN GATE OVERLAY
+       Requires user to sign in before exploring the store
+       ═══════════════════════════════════════════════ -->
+  <div class="auth-gate-overlay" id="auth-gate-overlay" aria-modal="true" role="dialog">
+    <div class="auth-gate-card">
+      <span class="auth-gate-badge">MEMBER ACCESS ONLY</span>
+      <h2 class="auth-gate-title">Sign In Required</h2>
+      <p class="auth-gate-desc">
+        Welcome to <strong>AG ATELIER</strong>. Please sign in to your account
+        or register as a new member to access our store.
+      </p>
+      <div class="auth-gate-actions">
+        <a href="login.html" class="btn btn-primary btn-full" id="gate-btn-login">
+          🔑 Sign In to Continue
+        </a>
+        <a href="signup.html" class="btn btn-secondary btn-full" id="gate-btn-signup">
+          ✨ Create New Account
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- NAVBAR — LOGGED-IN STATE (only on account.html)
+       Shows user name + avatar + Logout button instead of Login/Sign Up -->
+  <header class="site-header" id="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="index.html" class="nav-logo" id="nav-logo">AG ATELIER</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html"   class="nav-link"       id="nav-home">Home</a></li>
+        <li><a href="shop.html"    class="nav-link"       id="nav-shop">Shop</a></li>
+        <li><a href="about.html"   class="nav-link"       id="nav-about">About Us</a></li>
+        <li><a href="contact.html" class="nav-link"       id="nav-contact">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-search" id="nav-search-bar">
+          <span class="nav-search-icon" aria-hidden="true">🔍</span>
+          <input type="search" id="nav-search-input" placeholder="Search products…" aria-label="Search products" />
+        </div>
+        <a href="wishlist.html" class="nav-icon-btn" id="nav-wishlist-btn" aria-label="View wishlist">🤍<span class="badge" id="wishlist-badge">2</span></a>
+        <a href="cart.html"     class="nav-icon-btn" id="nav-cart-btn"     aria-label="View shopping cart">🛍<span class="badge" id="cart-badge">3</span></a>
+
+        <!-- LOGGED-IN NAV STATE (appears only when user is authenticated)
+             JS NOTE: In Evaluation 2, JS will switch between .nav-auth-guest
+             and .nav-user based on localStorage session data.
+             This page hardcodes the logged-in state to show how it looks. -->
+        <div class="nav-user" id="nav-auth-loggedin">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--color-primary-mid);
+            color:#fff;font-weight:700;font-size:0.8rem;display:flex;align-items:center;
+            justify-content:center;flex-shrink:0" aria-hidden="true">JD</div>
+          <span class="nav-user-name" id="nav-user-name">Jane Doe</span>
+          <!-- Logout button (changed to link for static HTML navigation) -->
+          <a href="index.html" class="btn-logout" id="btn-logout" style="text-decoration:none; display:flex; align-items:center;">Logout</a>
+        </div>
+
+      </div>
+      <button type="button" class="hamburger" id="hamburger-btn" data-action="toggle-menu"
+        aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </nav>
+  </header>
+
+  <main id="main-content" class="page-content">
+    <div class="container">
+
+      <div class="account-layout" id="account-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="account-sidebar" id="account-sidebar" aria-label="Account navigation">
+          <!-- User card -->
+          <div class="account-user-card" id="account-user-card">
+            <div class="account-avatar" aria-hidden="true">JD</div>
+            <p class="account-user-name" id="account-user-name">Jane Doe</p>
+            <p class="account-user-email" id="account-user-email">jane.doe@example.com</p>
+          </div>
+          <!-- Sidebar nav -->
+          <nav class="account-nav" aria-label="Account sections">
+            <a href="#orders" class="account-nav-link" id="nav-orders">📦 My Orders</a>
+            <a href="wishlist.html" class="account-nav-link" id="nav-wishlist-link">🤍 Wishlist</a>
+            <a href="#addresses" class="account-nav-link" id="nav-addresses">📍 Addresses</a>
+            <a href="#profile" class="account-nav-link" id="nav-profile">👤 Profile Settings</a>
+            <a href="#password" class="account-nav-link" id="nav-password">🔒 Change Password</a>
+            <a href="index.html" class="account-nav-link btn-logout" id="sidebar-logout"
+              style="text-decoration:none; color:var(--color-error);">
+              🚪 Logout
+            </a>
+          </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="account-main" id="account-main">
+
+          <!-- Profile section -->
+          <section id="profile" class="account-section" aria-label="Profile settings">
+            <h2 class="account-section-title" id="profile-title">Profile Settings</h2>
+            <!-- action='#' — Evaluation 2 JS handles this form -->
+            <form id="profile-form" action="#" method="get" style="max-width:480px">
+              <div class="form-group" style="margin-bottom:1.25rem">
+                <label class="form-label" for="profile-name">Full Name</label>
+                <input class="form-input" type="text" id="profile-name" name="name"
+                  value="Jane Doe" required />
+              </div>
+              <div class="form-group" style="margin-bottom:1.25rem">
+                <label class="form-label" for="profile-email">Email Address</label>
+                <input class="form-input" type="email" id="profile-email" name="email"
+                  value="jane.doe@example.com" required />
+              </div>
+              <div class="form-group" style="margin-bottom:1.5rem">
+                <label class="form-label" for="profile-phone">Phone Number</label>
+                <input class="form-input" type="tel" id="profile-phone" name="phone"
+                  value="+1 (555) 012-3456" />
+              </div>
+              <button type="submit" class="btn btn-primary" id="btn-save-profile">
+                Save Changes
+              </button>
+            </form>
+          </section>
+
+          <!-- Addresses section -->
+          <section id="addresses" class="account-section" aria-label="Manage Addresses">
+            <h2 class="account-section-title" id="addresses-title">Manage Addresses</h2>
+            <form id="address-form" action="#" method="get" style="max-width:480px">
+              <div class="form-group" style="margin-bottom:1.25rem">
+                <label class="form-label" for="address-street">Street Address</label>
+                <input class="form-input" type="text" id="address-street" name="street"
+                  placeholder="123 Main St" required />
+              </div>
+              <div style="display:flex; gap:1rem; margin-bottom:1.25rem">
+                <div class="form-group" style="flex:1">
+                  <label class="form-label" for="address-city">City</label>
+                  <input class="form-input" type="text" id="address-city" name="city" required />
+                </div>
+                <div class="form-group" style="flex:1">
+                  <label class="form-label" for="address-zip">ZIP Code</label>
+                  <input class="form-input" type="text" id="address-zip" name="zip" required />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-secondary" id="btn-save-address">
+                Save Address
+              </button>
+            </form>
+          </section>
+
+          <!-- Password section -->
+          <section id="password" class="account-section" aria-label="Change Password">
+            <h2 class="account-section-title" id="password-title">Change Password</h2>
+            <form id="password-form" action="#" method="get" style="max-width:480px">
+              <div class="form-group" style="margin-bottom:1.25rem">
+                <label class="form-label" for="current-password">Current Password</label>
+                <input class="form-input" type="password" id="current-password" name="current-password" required />
+              </div>
+              <div class="form-group" style="margin-bottom:1.25rem">
+                <label class="form-label" for="new-password">New Password</label>
+                <input class="form-input" type="password" id="new-password" name="new-password" required minlength="8" />
+              </div>
+              <div class="form-group" style="margin-bottom:1.5rem">
+                <label class="form-label" for="confirm-new-password">Confirm New Password</label>
+                <input class="form-input" type="password" id="confirm-new-password" name="confirm-new-password" required minlength="8" />
+              </div>
+              <button type="submit" class="btn btn-primary" id="btn-save-password">
+                Update Password
+              </button>
+            </form>
+          </section>
+
+          <!-- My Orders section (must be last child for CSS :target hack) -->
+          <section id="orders" class="account-section" aria-label="My orders">
+            <h1 class="account-section-title" id="orders-title">My Orders</h1>
+
+            <!-- Orders table — hardcoded sample order history -->
+            <table class="account-orders-table" id="orders-table">
+              <thead>
+                <tr>
+                  <th scope="col">Order #</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Items</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Status</th>
+                  <th scope="col"><span class="sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#AGA-20241023-7842</td>
+                  <td>Oct 23, 2024</td>
+                  <td>4 items</td>
+                  <td>$328.59</td>
+                  <td><span class="status-badge status-shipped">🚚 Shipped</span></td>
+                  <td><a href="order-confirmation.html" class="order-view-link">View →</a></td>
+                </tr>
+                <tr>
+                  <td>#AGA-20241010-6591</td>
+                  <td>Oct 10, 2024</td>
+                  <td>2 items</td>
+                  <td>$175.00</td>
+                  <td><span class="status-badge status-delivered">✅ Delivered</span></td>
+                  <td><a href="order-confirmation.html" class="order-view-link">View →</a></td>
+                </tr>
+                <tr>
+                  <td>#AGA-20240922-5224</td>
+                  <td>Sep 22, 2024</td>
+                  <td>1 item</td>
+                  <td>$85.00</td>
+                  <td><span class="status-badge status-delivered">✅ Delivered</span></td>
+                  <td><a href="order-confirmation.html" class="order-view-link">View →</a></td>
+                </tr>
+                <tr>
+                  <td>#AGA-20241027-8103</td>
+                  <td>Oct 27, 2024</td>
+                  <td>3 items</td>
+                  <td>$250.00</td>
+                  <td><span class="status-badge status-processing">⏳ Processing</span></td>
+                  <td><a href="order-confirmation.html" class="order-view-link">View →</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

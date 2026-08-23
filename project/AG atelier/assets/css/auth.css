@@ -1,0 +1,297 @@
+/* ============================================================
+   auth.css — Shared styles for login.html, signup.html,
+   and forgot-password.html.
+   Includes: centered auth card, captcha block, 
+   password strength hints, and form layout.
+   ============================================================ */
+
+/* ──────────────────────────────────────────────
+   AUTH PAGE WRAPPER
+   Full-screen centered layout. The card floats
+   in the middle of a linen-colored page.
+   ────────────────────────────────────────────── */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F5F1EC;
+  padding: 2rem 1rem;
+}
+
+/* ──────────────────────────────────────────────
+   AUTH CARD
+   The white rounded box containing the form.
+   ────────────────────────────────────────────── */
+.auth-card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 2.5rem 2.5rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0px 16px 48px rgba(26, 26, 26, 0.16);
+}
+
+/* ──────────────────────────────────────────────
+   AUTH CARD HEADER
+   Title + subtitle text at the top of the card
+   ────────────────────────────────────────────── */
+.auth-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+  font-size: 0.875rem;
+  color: #56423e;
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+/* ──────────────────────────────────────────────
+   AUTH FORM
+   action="#" method="get" on every auth form.
+   Comment in HTML explains: this is a placeholder —
+   Evaluation 2 JS will intercept submit and handle it.
+   ────────────────────────────────────────────── */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ──────────────────────────────────────────────
+   PASSWORD STRENGTH HINTS
+   Visual checklist shown below the password field
+   on the signup page. Each rule is shown in grey
+   (not met) or red/terracotta (met).
+   In this static phase they are hardcoded as visual;
+   Evaluation 2 JS will toggle .hint-met class in real time.
+   ────────────────────────────────────────────── */
+.password-hints {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #F5F1EC;
+  border-radius: 0.75rem;
+  margin-top: calc(-1 * 0.5rem); /* Pull up slightly */
+}
+
+.hint-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #56423e;
+}
+
+.hint-icon {
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+/* Met hint — green check icon, green text */
+.hint-item.hint-met {
+  color: #B5533C;
+}
+
+/* ──────────────────────────────────────────────
+   CAPTCHA BLOCK
+   Static visual captcha — code + refresh + input.
+   Cannot actually generate/validate without JS.
+   Evaluation 2 will generate random codes and check them.
+   ────────────────────────────────────────────── */
+.captcha-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1A1A1A;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* The box containing the captcha code display */
+.captcha-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* The captcha code visual — styled to look like a real captcha */
+.captcha-code {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  background: linear-gradient(135deg, #e8e3de 0%, #f0ebe4 50%, #e4dfd8 100%);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(26, 26, 26, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+/* The code text itself — skewed to look captcha-like */
+.captcha-text {
+  font-family: 'Courier New', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #953C27;
+  /* Skew + slight rotation for the captcha "distortion" effect */
+  transform: skewX(-5deg);
+  text-shadow: 1px 1px 0 rgba(150, 100, 80, 0.3);
+  position: relative;
+  z-index: 1;
+  user-select: none;
+}
+
+/* Decorative noise lines over captcha (CSS only, no JS) */
+.captcha-code::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 8px,
+    rgba(149, 60, 39, 0.08) 8px,
+    rgba(149, 60, 39, 0.08) 9px
+  );
+}
+
+/* Refresh button next to captcha code.
+   JS NOTE: data-action="refresh-captcha" is the hook
+   Evaluation 2 uses to generate a new random code. */
+.captcha-refresh {
+  width: 48px;
+  height: 56px;
+  border: 1px solid rgba(26, 26, 26, 0.15);
+  border-radius: 0.75rem;
+  background-color: #ffffff;
+  color: #56423e;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, border-color 0.15s ease,
+              transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.captcha-refresh:hover {
+  color: #B5533C;
+  border-color: #B5533C;
+  transform: rotate(180deg);
+}
+
+/* Input field for typing the captcha code */
+.captcha-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid rgba(26, 26, 26, 0.15);
+  border-radius: 0.75rem;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  color: #1A1A1A;
+  outline: none;
+  text-align: center;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.captcha-input:focus {
+  border-color: #B5533C;
+  box-shadow: 0 0 0 3px rgba(181, 83, 60, 0.12);
+}
+
+.captcha-input::placeholder {
+  font-family: 'Inter', sans-serif;
+  letter-spacing: normal;
+  color: #89726d;
+}
+
+/* ──────────────────────────────────────────────
+   AUTH DIVIDERS & HELPER LINKS
+   "Forgot Password?" link, "Already have an account?" etc.
+   ────────────────────────────────────────────── */
+.auth-forgot-link {
+  font-size: 0.875rem;
+  color: #B5533C;
+  text-align: right;
+  display: block;
+  margin-top: calc(-1 * 0.5rem);
+  transition: color 0.15s ease;
+}
+
+.auth-forgot-link:hover {
+  color: #953C27;
+}
+
+/* Bottom link text: "Don't have an account? Sign Up" */
+.auth-redirect {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #56423e;
+  margin-top: 1.25rem;
+}
+
+.auth-redirect a {
+  color: #B5533C;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.auth-redirect a:hover {
+  color: #953C27;
+}
+
+/* Back to home link at the bottom */
+.auth-back-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #56423e;
+  margin-top: 1rem;
+  transition: color 0.15s ease;
+}
+
+.auth-back-home:hover {
+  color: #1A1A1A;
+}
+
+/* ──────────────────────────────────────────────
+   SUBMIT BUTTON (Auth pages)
+   Full width primary button with right arrow
+   ────────────────────────────────────────────── */
+.btn-auth-submit {
+  width: 100%;
+  padding: 1rem;
+  background-color: #B5533C;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.btn-auth-submit:hover {
+  background-color: #953C27;
+  transform: translateY(-1px);
+}

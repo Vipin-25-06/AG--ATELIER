@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — AG ATELIER</title>
+  <meta name="description" content="Securely complete your AG ATELIER purchase. Enter shipping address and payment details to place your order." />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/checkout.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <link rel="stylesheet" href="../assets/css/preloader.css" />
+  <script src="../assets/js/preloader.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</head>
+<body>
+  <div id="logged-in"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRELOADER OVERLAY (Pure CSS Progress Bar 0% - 100%)
+       Matches AG ATELIER UI/UX palette
+       ═══════════════════════════════════════════════ -->
+  <div class="site-preloader" id="site-preloader" aria-label="Loading AG ATELIER">
+    <div class="preloader-brand">AG ATELIER</div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar"></div>
+    </div>
+    <div class="preloader-percentage">Loading Website: </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       MANDATORY SIGN-IN GATE OVERLAY
+       Requires user to sign in before exploring the store
+       ═══════════════════════════════════════════════ -->
+  <div class="auth-gate-overlay" id="auth-gate-overlay" aria-modal="true" role="dialog">
+    <div class="auth-gate-card">
+      <span class="auth-gate-badge">MEMBER ACCESS ONLY</span>
+      <h2 class="auth-gate-title">Sign In Required</h2>
+      <p class="auth-gate-desc">
+        Welcome to <strong>AG ATELIER</strong>. Please sign in to your account
+        or register as a new member to access our store.
+      </p>
+      <div class="auth-gate-actions">
+        <a href="login.html" class="btn btn-primary btn-full" id="gate-btn-login">
+          🔑 Sign In to Continue
+        </a>
+        <a href="signup.html" class="btn btn-secondary btn-full" id="gate-btn-signup">
+          ✨ Create New Account
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Checkout uses a minimal header (logo only) — no full navbar per design convention -->
+  <header class="checkout-header" id="checkout-header">
+    <a href="index.html" class="checkout-logo" id="checkout-logo">AG ATELIER</a>
+  </header>
+
+  <main id="main-content">
+    <div class="container">
+
+      <!-- Checkout layout: form (left) + summary (right) -->
+      <div class="checkout-layout" id="checkout-layout">
+
+        <!-- ── LEFT: CHECKOUT FORM ── -->
+        <!-- action='#' method='get' — Evaluation 2 JS will handle submission.
+             HTML5 native validation is active via required, type, minlength, pattern. -->
+        <form class="checkout-form" id="checkout-form" action="#" method="get">
+
+          <!-- Section 1: Shipping Address -->
+          <div class="checkout-section" id="section-shipping">
+            <h2 class="checkout-section-title">
+              <span class="checkout-section-icon" aria-hidden="true">📍</span>
+              Shipping Address
+            </h2>
+
+            <div class="form-group" style="margin-bottom: 1.25rem">
+              <label class="form-label" for="checkout-fullname">Full Name</label>
+              <input class="form-input" type="text" id="checkout-fullname" name="fullname"
+                placeholder="Jane Doe" required minlength="2"
+                title="Please enter your full name (at least 2 characters)"
+                aria-required="true" />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem">
+              <label class="form-label" for="checkout-email">Email Address</label>
+              <input class="form-input" type="email" id="checkout-email" name="email"
+                placeholder="jane@example.com" required
+                title="Please enter a valid email address"
+                aria-required="true" />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem">
+              <label class="form-label" for="checkout-phone">Phone Number</label>
+              <input class="form-input" type="tel" id="checkout-phone" name="phone"
+                placeholder="+1 (555) 000-0000" required
+                pattern="[\+]?[\d\s\-\(\)]{7,15}"
+                title="Please enter a valid phone number"
+                aria-required="true" />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem">
+              <label class="form-label" for="checkout-address">Street Address</label>
+              <input class="form-input" type="text" id="checkout-address" name="address"
+                placeholder="123 Main Street, Apt 4B" required
+                title="Please enter your street address"
+                aria-required="true" />
+            </div>
+
+            <div class="form-row-2" style="margin-bottom: 1.25rem">
+              <div class="form-group">
+                <label class="form-label" for="checkout-city">City</label>
+                <input class="form-input" type="text" id="checkout-city" name="city"
+                  placeholder="New York" required aria-required="true" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="checkout-state">State / Province</label>
+                <input class="form-input" type="text" id="checkout-state" name="state"
+                  placeholder="NY" required aria-required="true" />
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label" for="checkout-zip">ZIP / Postal Code</label>
+                <input class="form-input" type="text" id="checkout-zip" name="zip"
+                  placeholder="10001" required
+                  pattern="[A-Z0-9\-\s]{3,10}"
+                  title="Please enter a valid postal code"
+                  aria-required="true" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="checkout-country">Country</label>
+                <select class="form-select" id="checkout-country" name="country"
+                  required aria-required="true">
+                  <option value="">Select Country</option>
+                  <option value="US" selected>United States</option>
+                  <option value="CA">Canada</option>
+                  <option value="GB">United Kingdom</option>
+                  <option value="AU">Australia</option>
+                  <option value="DE">Germany</option>
+                  <option value="IN">India</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- END SHIPPING SECTION -->
+
+          <!-- Section 2: Payment Method -->
+          <div class="checkout-section" id="section-payment">
+            <h2 class="checkout-section-title">
+              <span class="checkout-section-icon" aria-hidden="true">💳</span>
+              Payment Method
+            </h2>
+
+            <div class="payment-options" id="payment-options" role="group"
+              aria-label="Select payment method">
+
+              <!-- Credit / Debit Card (default selected) -->
+              <label class="payment-card" id="pay-card-option">
+                <input type="radio" name="payment" value="card" id="pay-card"
+                  aria-label="Credit or Debit Card" checked required />
+                <div class="payment-card-info">
+                  <p class="payment-card-title">Credit / Debit Card</p>
+                  <p class="payment-card-desc">Visa, Mastercard, Amex, Discover</p>
+                </div>
+                <div class="payment-card-logo" aria-hidden="true">
+                  <span style="color:#1a1f71;font-size:1.5rem">VISA</span>
+                  <span style="color:#eb001b;font-size:1.5rem">●●</span>
+                </div>
+              </label>
+
+              <!-- Card detail fields — shown when "card" is selected.
+                   In Evaluation 2, JS will show/hide this based on selection. -->
+              <div class="card-details" id="card-details">
+                <div class="form-group">
+                  <label class="form-label" for="card-number">Card Number</label>
+                  <input class="form-input" type="text" id="card-number" name="card-number"
+                    placeholder="1234 5678 9012 3456"
+                    pattern="[\d\s]{19}"
+                    maxlength="19"
+                    title="Please enter a valid 16-digit card number"
+                    aria-label="Card number" />
+                </div>
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label class="form-label" for="card-expiry">Expiry Date</label>
+                    <input class="form-input" type="text" id="card-expiry" name="card-expiry"
+                      placeholder="MM / YY"
+                      pattern="(0[1-9]|1[0-2])[ \/]{1,2}[0-9]{2}"
+                      title="Please enter a valid expiry date (MM/YY)"
+                      aria-label="Card expiry date" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="card-cvv">CVV</label>
+                    <input class="form-input" type="text" id="card-cvv" name="card-cvv"
+                      placeholder="123"
+                      pattern="[0-9]{3,4}"
+                      maxlength="4"
+                      title="Please enter the 3 or 4 digit CVV on your card"
+                      aria-label="Card CVV" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="card-name">Name on Card</label>
+                  <input class="form-input" type="text" id="card-name" name="card-name"
+                    placeholder="JANE DOE" aria-label="Name as printed on card" />
+                </div>
+              </div>
+
+              <!-- PayPal -->
+              <label class="payment-card" id="pay-paypal-option">
+                <input type="radio" name="payment" value="paypal" id="pay-paypal"
+                  aria-label="PayPal" />
+                <div class="payment-card-info">
+                  <p class="payment-card-title">PayPal</p>
+                  <p class="payment-card-desc">You'll be redirected to PayPal to complete payment.</p>
+                </div>
+                <div class="payment-card-logo" aria-hidden="true" style="font-weight:700;color:#003087">
+                  Pay<span style="color:#009cde">Pal</span>
+                </div>
+              </label>
+
+              <!-- Cash on Delivery -->
+              <label class="payment-card" id="pay-cod-option">
+                <input type="radio" name="payment" value="cod" id="pay-cod"
+                  aria-label="Cash on Delivery" />
+                <div class="payment-card-info">
+                  <p class="payment-card-title">Cash on Delivery</p>
+                  <p class="payment-card-desc">Pay when your order arrives at your door.</p>
+                </div>
+                <div class="payment-card-logo" aria-hidden="true">💵</div>
+              </label>
+
+            </div>
+          </div>
+          <!-- END PAYMENT SECTION -->
+
+          <!-- Submit Order button -->
+          <button type="submit" class="btn btn-primary btn-full" id="btn-place-order">
+            Place Order
+          </button>
+          <p style="font-size:var(--text-xs); color:var(--color-text-muted); text-align:center; margin-top:1rem;">
+            By placing your order you agree to our <a href="#" style="color:var(--color-primary-mid)">Terms of Service</a>
+            and <a href="#" style="color:var(--color-primary-mid)">Privacy Policy</a>.
+          </p>
+
+        </form>
+        <!-- END CHECKOUT FORM -->
+
+        <!-- ── RIGHT: ORDER SUMMARY SIDEBAR ── -->
+        <aside class="checkout-summary" id="checkout-summary" aria-label="Order summary">
+          <h2 class="checkout-summary-title">Order Summary</h2>
+
+          <!-- Hardcoded order items (same as cart for the static demo) -->
+          <div id="checkout-order-items">
+
+            <div class="checkout-order-item" id="checkout-item-p001">
+              <div class="checkout-item-image">
+                <img src="../assets/images/products/p001-tee.jpg" alt="Essential Oversized Tee" />
+              </div>
+              <div class="checkout-item-info">
+                <p class="checkout-item-name">Essential Oversized Tee</p>
+                <p class="checkout-item-meta">Size: L | Qty: 1</p>
+              </div>
+              <p class="checkout-item-price">$45.00</p>
+            </div>
+
+            <div class="checkout-order-item" id="checkout-item-p002">
+              <div class="checkout-item-image">
+                <img src="../assets/images/products/p002-trousers.jpg" alt="Utility Cargo Pants" />
+              </div>
+              <div class="checkout-item-info">
+                <p class="checkout-item-name">Utility Cargo Pants</p>
+                <p class="checkout-item-meta">Size: M | Qty: 1</p>
+              </div>
+              <p class="checkout-item-price">$120.00</p>
+            </div>
+
+            <div class="checkout-order-item" id="checkout-item-p003">
+              <div class="checkout-item-image">
+                <img src="../assets/images/products/p003-jacket.jpg" alt="Canvas Structure Tote" />
+              </div>
+              <div class="checkout-item-info">
+                <p class="checkout-item-name">Canvas Structure Tote</p>
+                <p class="checkout-item-meta">One Size | Qty: 2</p>
+              </div>
+              <p class="checkout-item-price">$130.00</p>
+            </div>
+
+          </div>
+
+          <div class="checkout-totals">
+            <div class="checkout-total-row">
+              <span>Subtotal (4 items)</span><span>$295.00</span>
+            </div>
+            <div class="checkout-total-row">
+              <span>Shipping</span><span>$9.99</span>
+            </div>
+            <div class="checkout-total-row">
+              <span>Tax (8%)</span><span>$23.60</span>
+            </div>
+          </div>
+
+          <div class="checkout-grand-total">
+            <span>Total</span><span>$328.59</span>
+          </div>
+
+          <button type="submit" form="checkout-form" class="btn btn-primary btn-full"
+            id="checkout-summary-submit">Place Order</button>
+          <p class="checkout-note">
+            🔒 Your payment info is encrypted and never stored on our servers.
+          </p>
+        </aside>
+
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>

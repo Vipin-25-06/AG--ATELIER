@@ -1,0 +1,332 @@
+/* ============================================================
+   checkout.css — Styles for checkout.html and
+   order-confirmation.html.
+   Includes: shipping form, payment method cards,
+   order summary sidebar, and confirmation page.
+   ============================================================ */
+
+/* ──────────────────────────────────────────────
+   CHECKOUT PAGE LAYOUT
+   Two-column: form (left, wider) + order summary (right)
+   ────────────────────────────────────────────── */
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 2.5rem;
+  padding-block: 2rem 4rem;
+  align-items: start;
+}
+
+/* ──────────────────────────────────────────────
+   CHECKOUT PAGE HEADER LOGO ONLY
+   The checkout page shows just the logo (no full navbar)
+   which is a common pattern for distraction-free checkout.
+   ────────────────────────────────────────────── */
+.checkout-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 72px;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.15);
+  background-color: #ffffff;
+}
+
+.checkout-logo {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ──────────────────────────────────────────────
+   SECTION HEADINGS within checkout form
+   (Shipping Address, Payment Method)
+   ────────────────────────────────────────────── */
+.checkout-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 1.5rem;
+}
+
+.checkout-section-icon {
+  color: #B5533C;
+  font-size: 1.25rem;
+}
+
+/* Space between the two checkout sections */
+.checkout-section {
+  margin-bottom: 2.5rem;
+}
+
+/* Two-column grid for city+state, pincode+phone rows */
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* ──────────────────────────────────────────────
+   PAYMENT METHOD CARDS
+   Each payment option is a clickable radio card.
+   The radio button selection works natively —
+   clicking switches the selected radio, no JS needed.
+   ────────────────────────────────────────────── */
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.payment-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1.5px solid rgba(26, 26, 26, 0.15);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  position: relative;
+}
+
+/* Highlight the card when its radio button is checked.
+   :has() is a modern CSS selector — it selects .payment-card
+   when it contains a checked radio input inside it. */
+.payment-card:has(input[type="radio"]:checked) {
+  border-color: #B5533C;
+  background-color: rgba(181, 83, 60, 0.04);
+}
+
+.payment-card input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #B5533C;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.payment-card-info {
+  flex: 1;
+}
+
+.payment-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.payment-card-desc {
+  font-size: 0.75rem;
+  color: #56423e;
+  margin-top: 2px;
+}
+
+.payment-card-logo {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Card detail fields (card number, expiry, CVV) */
+.card-details {
+  background-color: #F5F1EC;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ──────────────────────────────────────────────
+   CHECKOUT ORDER SUMMARY SIDEBAR
+   Same visual as cart order summary — sticky
+   ────────────────────────────────────────────── */
+.checkout-summary {
+  position: sticky;
+  top: calc(72px + 1.5rem); /* Accounts for checkout-specific header */
+  background-color: #F5F1EC;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.checkout-summary-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+/* Mini order item row within the summary */
+.checkout-order-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding-block: 0.75rem;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+.checkout-order-item:last-of-type {
+  border-bottom: none;
+}
+
+.checkout-item-image {
+  width: 64px;
+  height: 72px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background-color: #eeeeee;
+  flex-shrink: 0;
+}
+
+.checkout-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.checkout-item-info {
+  flex: 1;
+}
+
+.checkout-item-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.checkout-item-meta {
+  font-size: 0.75rem;
+  color: #56423e;
+}
+
+.checkout-item-price {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+/* Totals section inside checkout summary */
+.checkout-totals {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.checkout-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #56423e;
+}
+
+.checkout-grand-total {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(26, 26, 26, 0.15);
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #1A1A1A;
+  margin-block: 1rem 1.5rem;
+}
+
+.checkout-note {
+  font-size: 0.75rem;
+  color: #56423e;
+  text-align: center;
+  margin-top: 0.75rem;
+  line-height: 1.5;
+}
+
+/* ──────────────────────────────────────────────
+   ORDER CONFIRMATION PAGE
+   Centered success message with order details
+   ────────────────────────────────────────────── */
+.confirmation-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: 4rem;
+  background-color: #f9f9f9;
+}
+
+.confirmation-card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 3rem 3rem;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0px 4px 20px rgba(26, 26, 26, 0.08);
+  text-align: center;
+}
+
+.confirmation-icon {
+  font-size: 3.5rem;
+  color: #1a6b3a;
+  margin-bottom: 1rem;
+}
+
+.confirmation-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 0.75rem;
+}
+
+.confirmation-subtitle {
+  font-size: 1rem;
+  color: #56423e;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.confirmation-details {
+  background-color: #F5F1EC;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.confirmation-detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding-block: 0.5rem;
+  font-size: 0.875rem;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+.confirmation-detail-row:last-child {
+  border-bottom: none;
+}
+
+.confirmation-detail-label {
+  color: #56423e;
+}
+
+.confirmation-detail-value {
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.confirmation-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}

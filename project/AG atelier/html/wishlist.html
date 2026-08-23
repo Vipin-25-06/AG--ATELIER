@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Wishlist — AG ATELIER</title>
+  <meta name="description" content="View your saved products on AG ATELIER. Move items to cart or remove them from your wishlist." />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/home.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <style>
+    /* Wishlist-specific styles */
+    .wishlist-header {
+      padding-block: var(--space-10) var(--space-6);
+      border-bottom: 1px solid var(--color-outline-light);
+      margin-bottom: var(--space-8);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .wishlist-header h1 { font-family: var(--font-heading); font-size: var(--text-3xl); font-weight: var(--weight-semibold); }
+    .wishlist-count { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-1); }
+    .btn-clear-all { font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-muted); background: none; border: none; cursor: pointer; text-decoration: underline; }
+    .btn-clear-all:hover { color: var(--color-error); }
+    .wishlist-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); padding-bottom: var(--space-16); }
+
+    /* Remove X button on wishlist card */
+    .btn-wishlist-remove {
+      position: absolute; top: var(--space-2); right: var(--space-2); z-index: 2;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.9); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.875rem; color: var(--color-text-muted);
+      transition: color var(--transition-fast), background-color var(--transition-fast);
+    }
+    .btn-wishlist-remove:hover { color: var(--color-error); background: var(--color-white); }
+
+    /* Move to cart button replaces the "Add to Cart" button */
+    .btn-move-to-cart {
+      width: 100%; padding: 0.625rem; background-color: var(--color-primary-mid);
+      color: var(--color-white); border: none; border-radius: var(--radius-md);
+      font-size: var(--text-xs); font-weight: var(--weight-semibold);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      gap: var(--space-2); transition: background-color var(--transition-fast);
+    }
+    .btn-move-to-cart:hover { background-color: var(--color-primary); }
+    .btn-notify-me {
+      width: 100%; padding: 0.625rem; background-color: transparent;
+      color: var(--color-text-muted); border: 1px solid var(--color-outline-light);
+      border-radius: var(--radius-md); font-size: var(--text-xs); font-weight: var(--weight-semibold);
+      cursor: pointer; transition: border-color var(--transition-fast);
+    }
+    .btn-notify-me:hover { border-color: var(--color-primary-mid); color: var(--color-primary-mid); }
+
+    /* Out of stock overlay */
+    .out-of-stock-overlay {
+      position: absolute; inset: 0; background: rgba(255,255,255,0.6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--text-xs); font-weight: var(--weight-semibold);
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-muted);
+      border-radius: var(--radius-md);
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/css/preloader.css" />
+  <script src="../assets/js/preloader.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</head>
+<body>
+  <div id="logged-in"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRELOADER OVERLAY (Pure CSS Progress Bar 0% - 100%)
+       Matches AG ATELIER UI/UX palette
+       ═══════════════════════════════════════════════ -->
+  <div class="site-preloader" id="site-preloader" aria-label="Loading AG ATELIER">
+    <div class="preloader-brand">AG ATELIER</div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar"></div>
+    </div>
+    <div class="preloader-percentage">Loading Website: </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       MANDATORY SIGN-IN GATE OVERLAY
+       Requires user to sign in before exploring the store
+       ═══════════════════════════════════════════════ -->
+  <div class="auth-gate-overlay" id="auth-gate-overlay" aria-modal="true" role="dialog">
+    <div class="auth-gate-card">
+      <span class="auth-gate-badge">MEMBER ACCESS ONLY</span>
+      <h2 class="auth-gate-title">Sign In Required</h2>
+      <p class="auth-gate-desc">
+        Welcome to <strong>AG ATELIER</strong>. Please sign in to your account
+        or register as a new member to access our store.
+      </p>
+      <div class="auth-gate-actions">
+        <a href="login.html" class="btn btn-primary btn-full" id="gate-btn-login">
+          🔑 Sign In to Continue
+        </a>
+        <a href="signup.html" class="btn btn-secondary btn-full" id="gate-btn-signup">
+          ✨ Create New Account
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- NAVBAR -->
+  <header class="site-header" id="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="index.html" class="nav-logo" id="nav-logo">AG ATELIER</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html"   class="nav-link"       id="nav-home">Home</a></li>
+        <li><a href="shop.html"    class="nav-link"       id="nav-shop">Shop</a></li>
+        <li><a href="about.html"   class="nav-link"       id="nav-about">About Us</a></li>
+        <li><a href="contact.html" class="nav-link"       id="nav-contact">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-search" id="nav-search-bar">
+          <span class="nav-search-icon" aria-hidden="true">🔍</span>
+          <input type="search" id="nav-search-input" placeholder="Search products…" aria-label="Search products" />
+        </div>
+        <a href="wishlist.html" class="nav-icon-btn" id="nav-wishlist-btn" aria-label="View wishlist">🤍<span class="badge" id="wishlist-badge">6</span></a>
+        <a href="cart.html"     class="nav-icon-btn" id="nav-cart-btn"     aria-label="View shopping cart">🛍<span class="badge" id="cart-badge">3</span></a>
+        <div class="nav-auth" id="nav-auth-guest">
+          <a href="login.html"  class="nav-login-link" id="nav-login-link">Login</a>
+          <a href="signup.html" class="nav-signup-btn"  id="nav-signup-btn">Sign Up</a>
+        </div>
+      </div>
+      <button type="button" class="hamburger" id="hamburger-btn" data-action="toggle-menu"
+        aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </nav>
+  </header>
+
+  <main id="main-content" class="page-content">
+    <div class="container">
+
+      <div class="wishlist-header">
+        <div>
+          <h1 id="wishlist-heading">Your Wishlist</h1>
+          <p class="wishlist-count" id="wishlist-count">6 items saved for later</p>
+        </div>
+        <!-- Clear all — inert until Evaluation 2 JS hooks on it -->
+        <button type="button" class="btn-clear-all" id="btn-clear-all"
+          data-action="clear-wishlist">Clear all</button>
+      </div>
+
+      <!-- 6 hardcoded wishlist items matching the Stitch wishlist_desktop screenshot -->
+      <div class="wishlist-grid" id="wishlist-grid">
+
+        <!-- Wishlist Item 1 — Heavyweight Boxy Hoodie -->
+        <article class="product-card" id="wl-p001">
+          <div class="product-card-image">
+            <img src="../assets/images/products/p001-tee.jpg" alt="Heavyweight Boxy Hoodie in Earth" />
+            <!-- Remove from wishlist button -->
+            <button type="button" class="btn-wishlist-remove"
+              data-action="remove-wishlist" data-product-id="p001"
+              aria-label="Remove Heavyweight Boxy Hoodie from wishlist">✕</button>
+          </div>
+          <div class="product-card-body">
+            <h3 class="product-card-name">Heavyweight Boxy Hoodie</h3>
+            <div class="product-card-price"><span class="price-current">$85.00</span></div>
+            <p class="body-sm text-muted" style="margin-bottom:0.5rem">Size: M | Color: Earth</p>
+            <button type="button" class="btn-move-to-cart"
+              data-action="move-to-cart" data-product-id="p001">🛍 Move to Cart</button>
+          </div>
+        </article>
+
+        <!-- Wishlist Item 2 — Tailored Cargo Trousers -->
+        <article class="product-card" id="wl-p002">
+          <div class="product-card-image">
+            <img src="../assets/images/products/p002-trousers.jpg" alt="Tailored Cargo Trousers in Charcoal" />
+            <button type="button" class="btn-wishlist-remove"
+              data-action="remove-wishlist" data-product-id="p002"
+              aria-label="Remove Tailored Cargo Trousers from wishlist">✕</button>
+          </div>
+          <div class="product-card-body">
+            <h3 class="product-card-name">Tailored Cargo Trousers</h3>
+            <div class="product-card-price"><span class="price-current">$120.00</span></div>
+            <p class="body-sm text-muted" style="margin-bottom:0.5rem">Size: 32 | Color: Charcoal</p>
+            <button type="button" class="btn-move-to-cart"
+              data-action="move-to-cart" data-product-id="p002">🛍 Move to Cart</button>
+          </div>
+        </article>
+
+        <!-- Wishlist Item 3 — Mock-Neck Knit Sweater -->
+        <article class="product-card" id="wl-p011">
+          <div class="product-card-image">
+            <img src="../assets/images/products/p011-knit-sweater.jpg" alt="Mock-Neck Knit Sweater in Cream" />
+            <button type="button" class="btn-wishlist-remove"
+              data-action="remove-wishlist" data-product-id="p011"
+              aria-label="Remove Mock-Neck Knit Sweater from wishlist">✕</button>
+          </div>
+          <div class="product-card-body">
+            <h3 class="product-card-name">Mock-Neck Knit Sweater</h3>
+            <div class="product-card-price"><span class="price-current">$95.00</span></div>
+            <p class="body-sm text-muted" style="margin-bottom:0.5rem">Size: L | Color: Cream</p>
+            <button type="button" class="btn-move-to-cart"
+              data-action="move-to-cart" data-product-id="p011">🛍 Move to Cart</button>
+          </div>
+        </article>
+
+        <!-- Wishlist Item 4 — Structured Canvas Tote -->
+        <article class="product-card" id="wl-p012">
+          <div class="product-card-image">
+            <img src="../assets/images/products/p012-tote.jpg" alt="Structured Canvas Tote in Natural" />
+            <button type="button" class="btn-wishlist-remove"
+              data-action="remove-wishlist" data-product-id="p012"
+              aria-label="Remove Structured Canvas Tote from wishlist">✕</button>
+          </div>
+          <div class="product-card-body">
+            <h3 class="product-card-name">Structured Canvas Tote</h3>
+            <div class="product-card-price"><span class="price-current">$45.00</span></div>
+            <p class="body-sm text-muted" style="margin-bottom:0.5rem">One Size | Color: Natural</p>
+            <button type="button" class="btn-move-to-cart"
+              data-action="move-to-cart" data-product-id="p012">🛍 Move to Cart</button>
+          </div>
+        </article>
+
+        <!-- Wishlist Item 5 — Essential Washed Tee -->
+        <article class="product-card" id="wl-p007">
+          <div class="product-card-image">
+            <img src="../assets/images/products/p007-studio-tee.jpg" alt="Essential Washed Tee in Washed Black" />
+            <button type="button" class="btn-wishlist-remove"
+              data-action="remove-wishlist" data-product-id="p007"
+              aria-label="Remove Essential Washed Tee from wishlist">✕</button>
+          </div>
+          <div class="product-card-body">
+            <h3 class="product-card-name">Essential Washed Tee</h3>
+            <div class="product-card-price"><span class="price-current">$35.00</span></div>
+            <p class="body-sm text-muted" style="margin-bottom:0.5rem">Size: XL | Color: Washed Black</p>
+            <button type="button" class="btn-move-to-cart"
+              data-action="move-to-cart" data-product-id="p007">🛍 Move to Cart</button>
+          </div>
+        </article>
+
+        <!-- Wishlist Item 6 — Cuban Link Chain (OUT OF STOCK) -->
+        <article class="product-card" id="wl-p019">
+          <div class="product-card-image">
+            <img src="../assets/images/products/p019-chain.jpg" alt="Cuban Link Chain in Silver — Out of Stock" />
+            <!-- Out of stock overlay -->
+            <div class="out-of-stock-overlay" aria-label="Out of stock">Out of Stock</div>
+            <button type="button" class="btn-wishlist-remove"
+              data-action="remove-wishlist" data-product-id="p019"
+              aria-label="Remove Cuban Link Chain from wishlist">✕</button>
+          </div>
+          <div class="product-card-body">
+            <h3 class="product-card-name" style="color: var(--color-text-muted)">Cuban Link Chain</h3>
+            <div class="product-card-price"><span class="price" style="color:var(--color-text-muted)">$55.00</span></div>
+            <p class="body-sm text-muted" style="margin-bottom:0.5rem">Size: 22" | Color: Silver</p>
+            <!-- Notify Me button for out-of-stock items
+                 JS NOTE: In Evaluation 2, clicking this will add email to notify list -->
+            <button type="button" class="btn-notify-me"
+              data-action="notify-me" data-product-id="p019">Notify Me</button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/store.js"></script>
+</body>
+</html>

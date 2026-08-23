@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmed — AG ATELIER</title>
+  <meta name="description" content="Your AG ATELIER order has been confirmed. Thank you for your purchase!" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/checkout.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <link rel="stylesheet" href="../assets/css/preloader.css" />
+  <script src="../assets/js/preloader.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</head>
+<body>
+  <div id="logged-in"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRELOADER OVERLAY (Pure CSS Progress Bar 0% - 100%)
+       Matches AG ATELIER UI/UX palette
+       ═══════════════════════════════════════════════ -->
+  <div class="site-preloader" id="site-preloader" aria-label="Loading AG ATELIER">
+    <div class="preloader-brand">AG ATELIER</div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar"></div>
+    </div>
+    <div class="preloader-percentage">Loading Website: </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       MANDATORY SIGN-IN GATE OVERLAY
+       Requires user to sign in before exploring the store
+       ═══════════════════════════════════════════════ -->
+  <div class="auth-gate-overlay" id="auth-gate-overlay" aria-modal="true" role="dialog">
+    <div class="auth-gate-card">
+      <span class="auth-gate-badge">MEMBER ACCESS ONLY</span>
+      <h2 class="auth-gate-title">Sign In Required</h2>
+      <p class="auth-gate-desc">
+        Welcome to <strong>AG ATELIER</strong>. Please sign in to your account
+        or register as a new member to access our store.
+      </p>
+      <div class="auth-gate-actions">
+        <a href="login.html" class="btn btn-primary btn-full" id="gate-btn-login">
+          🔑 Sign In to Continue
+        </a>
+        <a href="signup.html" class="btn btn-secondary btn-full" id="gate-btn-signup">
+          ✨ Create New Account
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Minimal checkout header -->
+  <header class="checkout-header" id="checkout-header">
+    <a href="index.html" class="checkout-logo" id="checkout-logo">AG ATELIER</a>
+  </header>
+
+  <main id="main-content" class="confirmation-page">
+
+    <div class="confirmation-card" id="order-confirmation-card">
+
+      <!-- Success checkmark -->
+      <div class="confirmation-icon" aria-hidden="true">✅</div>
+
+      <h1 class="confirmation-title" id="confirmation-title">Order Confirmed!</h1>
+      <p class="confirmation-subtitle" id="confirmation-subtitle">
+        Thank you for your order. We're getting it ready now and will
+        email you when it ships.
+      </p>
+
+      <!-- Order details box -->
+      <div class="confirmation-details" id="confirmation-details">
+        <div class="confirmation-detail-row">
+          <span class="confirmation-detail-label">Order Number</span>
+          <!-- JS NOTE: In Evaluation 2, this will show the actual generated order number -->
+          <span class="confirmation-detail-value" id="order-number">#AGA-20241023-7842</span>
+        </div>
+        <div class="confirmation-detail-row">
+          <span class="confirmation-detail-label">Order Date</span>
+          <span class="confirmation-detail-value" id="order-date">October 23, 2024</span>
+        </div>
+        <div class="confirmation-detail-row">
+          <span class="confirmation-detail-label">Estimated Delivery</span>
+          <span class="confirmation-detail-value" id="order-delivery">Oct 28 – Oct 31, 2024</span>
+        </div>
+        <div class="confirmation-detail-row">
+          <span class="confirmation-detail-label">Total Paid</span>
+          <span class="confirmation-detail-value" id="order-total">$328.59</span>
+        </div>
+        <div class="confirmation-detail-row">
+          <span class="confirmation-detail-label">Payment Method</span>
+          <span class="confirmation-detail-value" id="order-payment">Visa ···· 4242</span>
+        </div>
+        <div class="confirmation-detail-row">
+          <span class="confirmation-detail-label">Shipping To</span>
+          <span class="confirmation-detail-value" id="order-address">Jane Doe, New York, NY 10001</span>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="confirmation-actions" id="confirmation-actions">
+        <a href="shop.html" class="btn btn-primary" id="btn-continue-shopping">
+          Continue Shopping
+        </a>
+        <a href="account.html" class="btn btn-secondary" id="btn-view-orders">
+          View My Orders
+        </a>
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

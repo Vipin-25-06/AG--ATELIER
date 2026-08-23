@@ -1,0 +1,388 @@
+/* ============================================================
+   home.css — Styles specific to the home page (index.html).
+   Includes: hero banner, category grid, product cards,
+   new arrivals, and features/benefits strip.
+   ============================================================ */
+
+/* ──────────────────────────────────────────────
+   HERO SECTION
+   Full-viewport-height banner with background image.
+   Text and CTA button overlaid using flexbox centering.
+   ────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+
+/* Hero background image overlay */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+/* Dark gradient overlay so white text is readable over image */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  z-index: 1;
+}
+
+/* The actual hero text content sits above the overlay */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  padding-inline: 1.5rem;
+}
+
+.hero-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+}
+
+.hero-subtitle {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* ──────────────────────────────────────────────
+   CATEGORY GRID SECTION
+   4-column grid on desktop, 2x2 on tablet/mobile.
+   Each card is an image with a label overlay.
+   ────────────────────────────────────────────── */
+.categories-section {
+  padding-block: 5rem;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+/* Each category card — positioned to overlay text on image */
+.category-card {
+  position: relative;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  aspect-ratio: 3 / 4; /* Portrait orientation for clothing images */
+  cursor: pointer;
+  background-color: #eeeeee;
+}
+
+.category-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* Subtle zoom on hover — CSS only, no JS */
+.category-card:hover img {
+  transform: scale(1.04);
+}
+
+/* Dark gradient at the bottom so label text is readable */
+.category-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 1rem 1rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+}
+
+.category-card-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* ──────────────────────────────────────────────
+   PRODUCT CARD (shared — used in new arrivals,
+   featured products, and also shop.html)
+   ────────────────────────────────────────────── */
+
+/* Product card grid container */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* Individual product card */
+.product-card {
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0px 4px 20px rgba(26, 26, 26, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+}
+
+/* Card lift effect on hover */
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 8px 32px rgba(26, 26, 26, 0.14);
+}
+
+/* Product image wrapper — fixed aspect ratio for consistent grid */
+.product-card-image {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: #F5F1EC;
+}
+
+.product-card-image > a {
+  display: block;
+  height: 100%;
+}
+
+.product-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-card-image img {
+  transform: scale(1.04);
+}
+
+/* Sale / New badge overlaid on image top-left */
+.product-card-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 2;
+}
+
+/* Wishlist toggle button — top-right of product image.
+   JS NOTE: In Evaluation 2, data-action="toggle-wishlist"
+   will be picked up by JS to add/remove from wishlist. */
+.btn-wishlist {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #56423e;
+  transition: color 0.15s ease, background-color 0.15s ease,
+              transform 0.15s ease;
+  backdrop-filter: blur(4px);
+}
+
+.btn-wishlist:hover {
+  color: #B5533C;
+  background-color: #ffffff;
+  transform: scale(1.1);
+}
+
+/* Active/saved wishlist state — shows filled red heart */
+.btn-wishlist.saved {
+  color: #B5533C;
+}
+
+/* Product card text body */
+.product-card-body {
+  padding: 1rem;
+}
+
+.product-card-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1A1A1A;
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.product-card-name a {
+  color: inherit;
+  transition: color 0.15s ease;
+}
+
+.product-card-name a:hover {
+  color: #B5533C;
+}
+
+/* Star rating below product name */
+.product-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-card-rating .stars {
+  color: #f4b400;
+  font-size: 0.75rem;
+}
+
+.product-card-rating .rating-value {
+  font-size: 0.75rem;
+  color: #56423e;
+}
+
+/* Price row within product card */
+.product-card-price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Add to Cart button inside product card.
+   JS NOTE: In Evaluation 2, data-action="add-to-cart" and
+   data-product-id will allow JS to add the item to localStorage cart. */
+.btn-add-cart {
+  width: 100%;
+  padding: 0.625rem;
+  background-color: #1A1A1A;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-add-cart:hover {
+  background-color: #B5533C;
+}
+
+/* ──────────────────────────────────────────────
+   FEATURES / BENEFITS STRIP
+   Three icon-text blocks showing store perks
+   (Free Shipping, Easy Returns, Secure Payment)
+   ────────────────────────────────────────────── */
+.features-strip {
+  background-color: #F5F1EC;
+  padding-block: 3rem;
+  border-top: 1px solid rgba(26, 26, 26, 0.15);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+}
+
+.feature-icon {
+  font-size: 2rem;
+  color: #B5533C;
+}
+
+.feature-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.feature-text {
+  font-size: 0.875rem;
+  color: #56423e;
+  line-height: 1.5;
+}
+
+/* ──────────────────────────────────────────────
+   NEWSLETTER SECTION
+   Email sign-up strip above the footer
+   ────────────────────────────────────────────── */
+.newsletter-section {
+  background-color: #1A1A1A;
+  padding-block: 4rem;
+  text-align: center;
+}
+
+.newsletter-section h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+}
+
+.newsletter-section p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2rem;
+}
+
+/* Inline email + button form */
+.newsletter-form {
+  display: flex;
+  max-width: 480px;
+  margin-inline: auto;
+  gap: 0.75rem;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 0.875rem 1.25rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  outline: none;
+  background-color: rgba(255,255,255,0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.newsletter-form input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+.newsletter-form input:focus {
+  border-color: #B5533C;
+}

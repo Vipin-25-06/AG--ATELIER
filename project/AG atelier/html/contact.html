@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us — AG ATELIER</title>
+  <meta name="description" content="Get in touch with AG ATELIER. We're here to help with orders, sizing, returns, and anything else. Send us a message." />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <style>
+    /* ── CONTACT PAGE SPECIFIC STYLES ── */
+    .contact-hero {
+      background-color: var(--color-linen);
+      padding-block: var(--space-16);
+      text-align: center;
+    }
+    .contact-hero h1 {
+      font-family: var(--font-heading); font-size: var(--text-3xl);
+      font-weight: var(--weight-semibold); color: var(--color-onyx);
+      margin-bottom: var(--space-3);
+    }
+    .contact-hero p { font-size: var(--text-base); color: var(--color-text-muted); }
+
+    /* Two-column layout: info (left) + form (right) */
+    .contact-layout {
+      display: grid; grid-template-columns: 1fr 1.6fr;
+      gap: var(--space-16); padding-block: var(--space-16);
+      align-items: start;
+    }
+    /* Info column */
+    .contact-info-title {
+      font-family: var(--font-heading); font-size: var(--text-2xl);
+      font-weight: var(--weight-semibold); color: var(--color-onyx);
+      margin-bottom: var(--space-6);
+    }
+    .contact-info-items { display: flex; flex-direction: column; gap: var(--space-6); }
+    .contact-info-item { display: flex; gap: var(--space-4); align-items: flex-start; }
+    .contact-info-icon { font-size: 1.25rem; flex-shrink: 0; color: var(--color-primary-mid); }
+    .contact-info-label {
+      font-size: var(--text-xs); font-weight: var(--weight-semibold);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--color-text-muted); margin-bottom: var(--space-1);
+    }
+    .contact-info-value { font-size: var(--text-sm); color: var(--color-onyx); line-height: 1.5; }
+
+    /* Form card */
+    .contact-form-card {
+      background-color: var(--color-white); border-radius: var(--radius-md);
+      padding: var(--space-10); box-shadow: var(--shadow-card);
+    }
+    .contact-form-title {
+      font-family: var(--font-heading); font-size: var(--text-2xl);
+      font-weight: var(--weight-semibold); margin-bottom: var(--space-6);
+    }
+    .contact-form { display: flex; flex-direction: column; gap: var(--space-5); }
+    .contact-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+
+    @media (max-width: 992px) {
+      .contact-layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 576px) {
+      .contact-form-row { grid-template-columns: 1fr; }
+      .contact-form-card { padding: var(--space-6); }
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/css/preloader.css" />
+  <script src="../assets/js/preloader.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</head>
+<body>
+  <div id="logged-in"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRELOADER OVERLAY (Pure CSS Progress Bar 0% - 100%)
+       Matches AG ATELIER UI/UX palette
+       ═══════════════════════════════════════════════ -->
+  <div class="site-preloader" id="site-preloader" aria-label="Loading AG ATELIER">
+    <div class="preloader-brand">AG ATELIER</div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar"></div>
+    </div>
+    <div class="preloader-percentage">Loading Website: </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       MANDATORY SIGN-IN GATE OVERLAY
+       Requires user to sign in before exploring the store
+       ═══════════════════════════════════════════════ -->
+  <div class="auth-gate-overlay" id="auth-gate-overlay" aria-modal="true" role="dialog">
+    <div class="auth-gate-card">
+      <span class="auth-gate-badge">MEMBER ACCESS ONLY</span>
+      <h2 class="auth-gate-title">Sign In Required</h2>
+      <p class="auth-gate-desc">
+        Welcome to <strong>AG ATELIER</strong>. Please sign in to your account
+        or register as a new member to access our store.
+      </p>
+      <div class="auth-gate-actions">
+        <a href="login.html" class="btn btn-primary btn-full" id="gate-btn-login">
+          🔑 Sign In to Continue
+        </a>
+        <a href="signup.html" class="btn btn-secondary btn-full" id="gate-btn-signup">
+          ✨ Create New Account
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- NAVBAR -->
+  <header class="site-header" id="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="index.html" class="nav-logo" id="nav-logo">AG ATELIER</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html"   class="nav-link"        id="nav-home">Home</a></li>
+        <li><a href="shop.html"    class="nav-link"        id="nav-shop">Shop</a></li>
+        <li><a href="about.html"   class="nav-link"        id="nav-about">About Us</a></li>
+        <li><a href="contact.html" class="nav-link active" id="nav-contact">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-search" id="nav-search-bar">
+          <span class="nav-search-icon" aria-hidden="true">🔍</span>
+          <input type="search" id="nav-search-input" placeholder="Search products…" aria-label="Search products" />
+        </div>
+        <a href="wishlist.html" class="nav-icon-btn" id="nav-wishlist-btn" aria-label="View wishlist">🤍<span class="badge" id="wishlist-badge">2</span></a>
+        <a href="cart.html"     class="nav-icon-btn" id="nav-cart-btn"     aria-label="View shopping cart">🛍<span class="badge" id="cart-badge">3</span></a>
+        <div class="nav-auth" id="nav-auth-guest">
+          <a href="login.html"  class="nav-login-link" id="nav-login-link">Login</a>
+          <a href="signup.html" class="nav-signup-btn"  id="nav-signup-btn">Sign Up</a>
+        </div>
+      </div>
+      <button type="button" class="hamburger" id="hamburger-btn" data-action="toggle-menu"
+        aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </nav>
+  </header>
+
+  <main id="main-content" class="page-content">
+
+    <!-- Contact hero -->
+    <section class="contact-hero" id="contact-hero" aria-label="Contact us header">
+      <div class="container">
+        <h1 id="contact-hero-title">Get in Touch</h1>
+        <p id="contact-hero-subtitle">Have a question or just want to say hello? We'd love to hear from you.</p>
+      </div>
+    </section>
+
+    <!-- Contact layout -->
+    <div class="container">
+      <div class="contact-layout" id="contact-layout">
+
+        <!-- Info column -->
+        <div class="contact-info" id="contact-info">
+          <h2 class="contact-info-title" id="contact-info-title">Contact Information</h2>
+          <div class="contact-info-items">
+            <div class="contact-info-item" id="contact-email">
+              <span class="contact-info-icon" aria-hidden="true">✉️</span>
+              <div>
+                <p class="contact-info-label">Email</p>
+                <p class="contact-info-value">hello@agatelier.com</p>
+                <p class="contact-info-value">support@agatelier.com</p>
+              </div>
+            </div>
+            <div class="contact-info-item" id="contact-hours">
+              <span class="contact-info-icon" aria-hidden="true">🕐</span>
+              <div>
+                <p class="contact-info-label">Support Hours</p>
+                <p class="contact-info-value">Monday – Friday: 9am – 6pm EST</p>
+                <p class="contact-info-value">Weekends: 10am – 3pm EST</p>
+              </div>
+            </div>
+            <div class="contact-info-item" id="contact-address">
+              <span class="contact-info-icon" aria-hidden="true">📍</span>
+              <div>
+                <p class="contact-info-label">Studio Address</p>
+                <p class="contact-info-value">248 Mercer Street, Floor 3<br />New York, NY 10012</p>
+              </div>
+            </div>
+            <div class="contact-info-item" id="contact-response">
+              <span class="contact-info-icon" aria-hidden="true">⏱</span>
+              <div>
+                <p class="contact-info-label">Response Time</p>
+                <p class="contact-info-value">We typically reply within 24 hours on business days.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact form card -->
+        <div class="contact-form-card" id="contact-form-card">
+          <h2 class="contact-form-title" id="contact-form-title">Send a Message</h2>
+
+          <!-- action='#' method='get' — Evaluation 2 JS will handle submission -->
+          <form class="contact-form" id="contact-form" action="#" method="get" novalidate>
+
+            <div class="contact-form-row">
+              <div class="form-group">
+                <label class="form-label" for="contact-first-name">First Name</label>
+                <input class="form-input" type="text" id="contact-first-name" name="first-name"
+                  placeholder="Jane" required minlength="2"
+                  title="Please enter your first name" aria-required="true" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-last-name">Last Name</label>
+                <input class="form-input" type="text" id="contact-last-name" name="last-name"
+                  placeholder="Doe" required minlength="2"
+                  title="Please enter your last name" aria-required="true" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-email">Email Address</label>
+              <input class="form-input" type="email" id="contact-email" name="email"
+                placeholder="jane@example.com" required
+                title="Please enter a valid email address" aria-required="true" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-subject">Subject</label>
+              <select class="form-select" id="contact-subject" name="subject" required
+                title="Please select a subject" aria-required="true">
+                <option value="">Select a subject…</option>
+                <option value="order">Order Inquiry</option>
+                <option value="return">Returns &amp; Exchanges</option>
+                <option value="sizing">Sizing Help</option>
+                <option value="wholesale">Wholesale</option>
+                <option value="press">Press &amp; Media</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-message">Message</label>
+              <textarea class="form-textarea" id="contact-message" name="message"
+                placeholder="Tell us how we can help you…"
+                required minlength="10" rows="5"
+                title="Please enter your message (at least 10 characters)"
+                aria-required="true"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="btn-contact-submit">
+              Send Message →
+            </button>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>

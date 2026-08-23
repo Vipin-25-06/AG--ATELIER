@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart — AG ATELIER</title>
+  <meta name="description" content="Review your shopping cart at AG ATELIER. Adjust quantities, remove items, and proceed to checkout." />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/cart.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <link rel="stylesheet" href="../assets/css/preloader.css" />
+  <script src="../assets/js/preloader.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</head>
+<body>
+  <div id="logged-in"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRELOADER OVERLAY (Pure CSS Progress Bar 0% - 100%)
+       Matches AG ATELIER UI/UX palette
+       ═══════════════════════════════════════════════ -->
+  <div class="site-preloader" id="site-preloader" aria-label="Loading AG ATELIER">
+    <div class="preloader-brand">AG ATELIER</div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar"></div>
+    </div>
+    <div class="preloader-percentage">Loading Website: </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       MANDATORY SIGN-IN GATE OVERLAY
+       Requires user to sign in before exploring the store
+       ═══════════════════════════════════════════════ -->
+  <div class="auth-gate-overlay" id="auth-gate-overlay" aria-modal="true" role="dialog">
+    <div class="auth-gate-card">
+      <span class="auth-gate-badge">MEMBER ACCESS ONLY</span>
+      <h2 class="auth-gate-title">Sign In Required</h2>
+      <p class="auth-gate-desc">
+        Welcome to <strong>AG ATELIER</strong>. Please sign in to your account
+        or register as a new member to access our store.
+      </p>
+      <div class="auth-gate-actions">
+        <a href="login.html" class="btn btn-primary btn-full" id="gate-btn-login">
+          🔑 Sign In to Continue
+        </a>
+        <a href="signup.html" class="btn btn-secondary btn-full" id="gate-btn-signup">
+          ✨ Create New Account
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- NAVBAR -->
+  <header class="site-header" id="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="index.html" class="nav-logo" id="nav-logo">AG ATELIER</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html"   class="nav-link"       id="nav-home">Home</a></li>
+        <li><a href="shop.html"    class="nav-link"       id="nav-shop">Shop</a></li>
+        <li><a href="about.html"   class="nav-link"       id="nav-about">About Us</a></li>
+        <li><a href="contact.html" class="nav-link"       id="nav-contact">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-search" id="nav-search-bar">
+          <span class="nav-search-icon" aria-hidden="true">🔍</span>
+          <input type="search" id="nav-search-input" placeholder="Search products…" aria-label="Search products" />
+        </div>
+        <a href="wishlist.html" class="nav-icon-btn" id="nav-wishlist-btn" aria-label="View wishlist">🤍<span class="badge" id="wishlist-badge">2</span></a>
+        <a href="cart.html" class="nav-icon-btn active" id="nav-cart-btn" aria-label="View shopping cart">🛍<span class="badge" id="cart-badge">3</span></a>
+        <div class="nav-auth" id="nav-auth-guest">
+          <a href="login.html"  class="nav-login-link" id="nav-login-link">Login</a>
+          <a href="signup.html" class="nav-signup-btn"  id="nav-signup-btn">Sign Up</a>
+        </div>
+      </div>
+      <button type="button" class="hamburger" id="hamburger-btn" data-action="toggle-menu"
+        aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </nav>
+  </header>
+
+  <main id="main-content" class="page-content">
+    <div class="container">
+
+      <div class="page-header">
+        <h1 id="cart-heading">Your Cart</h1>
+      </div>
+
+      <!-- Cart layout: items + order summary sidebar -->
+      <!-- JS NOTE: In Evaluation 2, all cart items and totals will be
+           rendered dynamically from localStorage. The hardcoded
+           items below are for structural/layout demonstration only. -->
+      <div class="cart-layout" id="cart-layout">
+
+        <!-- Cart items list -->
+        <section id="cart-items-section" aria-label="Cart items">
+          <div class="cart-items" id="cart-items">
+
+            <!-- Cart Item 1: Essential Oversized Tee -->
+            <div class="cart-item" id="cart-item-p001" data-product-id="p001">
+              <div class="cart-item-image">
+                <img src="../assets/images/products/p001-tee.jpg"
+                     alt="Essential Oversized Tee, Size L, Color Ivory" />
+              </div>
+              <div class="cart-item-details">
+                <p class="cart-item-name">Essential Oversized Tee</p>
+                <p class="cart-item-meta">Size: L | Color: Ivory</p>
+                <p class="cart-item-unit-price">$45.00</p>
+                <div class="cart-qty-stepper" id="stepper-p001">
+                  <button type="button" class="cart-qty-btn"
+                    data-action="qty-decrease" data-product-id="p001"
+                    aria-label="Decrease quantity">−</button>
+                  <span class="cart-qty-display" id="qty-p001" aria-live="polite">1</span>
+                  <button type="button" class="cart-qty-btn"
+                    data-action="qty-increase" data-product-id="p001"
+                    aria-label="Increase quantity">+</button>
+                </div>
+              </div>
+              <div class="cart-item-right">
+                <span class="cart-item-total" id="total-p001">$45.00</span>
+                <!-- Remove button — inert until Evaluation 2 JS hooks on it.
+                     JS NOTE: data-action="remove-item" + data-product-id used to
+                     remove item from localStorage cart and re-render. -->
+                <button type="button" class="btn-remove"
+                  data-action="remove-item"
+                  data-product-id="p001"
+                  aria-label="Remove Essential Oversized Tee from cart">🗑</button>
+              </div>
+            </div>
+
+            <!-- Cart Item 2: Utility Cargo Pants -->
+            <div class="cart-item" id="cart-item-p002" data-product-id="p002">
+              <div class="cart-item-image">
+                <img src="../assets/images/products/p002-trousers.jpg"
+                     alt="Utility Cargo Pants, Size M, Color Sand" />
+              </div>
+              <div class="cart-item-details">
+                <p class="cart-item-name">Utility Cargo Pants</p>
+                <p class="cart-item-meta">Size: M | Color: Sand</p>
+                <p class="cart-item-unit-price">$120.00</p>
+                <div class="cart-qty-stepper" id="stepper-p002">
+                  <button type="button" class="cart-qty-btn"
+                    data-action="qty-decrease" data-product-id="p002"
+                    aria-label="Decrease quantity">−</button>
+                  <span class="cart-qty-display" id="qty-p002" aria-live="polite">1</span>
+                  <button type="button" class="cart-qty-btn"
+                    data-action="qty-increase" data-product-id="p002"
+                    aria-label="Increase quantity">+</button>
+                </div>
+              </div>
+              <div class="cart-item-right">
+                <span class="cart-item-total" id="total-p002">$120.00</span>
+                <button type="button" class="btn-remove"
+                  data-action="remove-item" data-product-id="p002"
+                  aria-label="Remove Utility Cargo Pants from cart">🗑</button>
+              </div>
+            </div>
+
+            <!-- Cart Item 3: Canvas Structure Tote (qty 2) -->
+            <div class="cart-item" id="cart-item-p003" data-product-id="p003">
+              <div class="cart-item-image">
+                <img src="../assets/images/products/p003-jacket.jpg"
+                     alt="Canvas Structure Tote, One Size, Color Onyx" />
+              </div>
+              <div class="cart-item-details">
+                <p class="cart-item-name">Canvas Structure Tote</p>
+                <p class="cart-item-meta">Size: OS | Color: Onyx</p>
+                <p class="cart-item-unit-price">$65.00</p>
+                <div class="cart-qty-stepper" id="stepper-p003">
+                  <button type="button" class="cart-qty-btn"
+                    data-action="qty-decrease" data-product-id="p003"
+                    aria-label="Decrease quantity">−</button>
+                  <span class="cart-qty-display" id="qty-p003" aria-live="polite">2</span>
+                  <button type="button" class="cart-qty-btn"
+                    data-action="qty-increase" data-product-id="p003"
+                    aria-label="Increase quantity">+</button>
+                </div>
+              </div>
+              <div class="cart-item-right">
+                <!-- $65 × 2 = $130 -->
+                <span class="cart-item-total" id="total-p003">$130.00</span>
+                <button type="button" class="btn-remove"
+                  data-action="remove-item" data-product-id="p003"
+                  aria-label="Remove Canvas Structure Tote from cart">🗑</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Order Summary Sidebar
+             JS NOTE: In Evaluation 2, these totals will be computed
+             live from localStorage cart data. -->
+        <aside class="order-summary" id="order-summary" aria-label="Order summary">
+          <h2 class="order-summary-title">Order Summary</h2>
+
+          <div class="summary-lines" id="summary-lines">
+            <div class="summary-line">
+              <span class="summary-line-label">Subtotal (4 items)</span>
+              <!-- $45 + $120 + $130 = $295 -->
+              <span class="summary-line-value" id="summary-subtotal">$295.00</span>
+            </div>
+            <div class="summary-line">
+              <span class="summary-line-label">Shipping</span>
+              <span class="summary-line-value" id="summary-shipping">Calculated at checkout</span>
+            </div>
+            <div class="summary-line">
+              <span class="summary-line-label">Discount</span>
+              <span class="summary-line-value" id="summary-discount">—</span>
+            </div>
+          </div>
+
+          <div class="summary-total-row" id="summary-total-row">
+            <span class="summary-total-label">Total</span>
+            <span class="summary-total-value" id="summary-total">$295.00</span>
+          </div>
+
+          <div class="summary-actions">
+            <!-- Real link — navigates to checkout without JS -->
+            <a href="checkout.html" class="btn btn-primary btn-full" id="btn-checkout">
+              Proceed to Checkout
+            </a>
+            <!-- Real link — navigates to shop without JS -->
+            <a href="shop.html" class="btn btn-secondary btn-full" id="btn-continue-shopping">
+              Continue Shopping
+            </a>
+          </div>
+
+          <p class="summary-note">Free shipping on orders over $200. Tax calculated at checkout.</p>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/store.js"></script>
+</body>
+</html>

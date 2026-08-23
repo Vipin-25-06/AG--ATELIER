@@ -1,0 +1,478 @@
+/* ============================================================
+   responsive.css — All media query breakpoints.
+   Mobile-first approach: styles here OVERRIDE the defaults
+   set in the other CSS files for smaller screens.
+   
+   Breakpoints:
+   - Mobile:  < 576px
+   - Tablet:  576px – 992px
+   - Desktop: > 992px (default, written in other files)
+   ============================================================ */
+
+/* ══════════════════════════════════════════════
+   TABLET (max-width: 992px)
+   ══════════════════════════════════════════════ */
+@media (max-width: 992px) {
+
+  /* ── ROOT OVERRIDES ─────────────────────── */
+  :root {
+    --page-margin: 1.5rem; /* Reduce side padding on tablet */
+  }
+
+  /* ── NAVBAR ─────────────────────────────── */
+  /* Hide the main nav links — they'll stack vertically */
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    flex-direction: column;
+    padding: 1rem 2.5rem;
+    gap: 0.25rem;
+    border-bottom: 1px solid #F5F1EC;
+    box-shadow: 0px 4px 20px rgba(26, 26, 26, 0.08);
+    z-index: 999;
+  }
+
+  /* When JS adds .nav-open class to header, show the links.
+     For now, on tablet the links just stack on hover isn't possible
+     without JS, so they stay hidden — nav links also appear if
+     hamburger gets .active via JS in Evaluation 2. */
+  .site-header.nav-open .nav-links {
+    display: flex;
+  }
+
+  .nav-link {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #F5F1EC;
+    font-size: 1rem;
+  }
+
+  /* Show the hamburger button on tablet */
+  .hamburger {
+    display: flex;
+  }
+
+  /* Hide search bar on tablet — too cramped */
+  .nav-search {
+    display: none;
+  }
+
+  /* Keep auth links visible but compact */
+  .nav-login-link,
+  .nav-signup-btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  /* ── HOME PAGE ───────────────────────────── */
+  /* Category grid: 2 columns on tablet */
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Products grid: 2 columns */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Features strip: 1 column */
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  /* Newsletter form stacks */
+  .newsletter-form {
+    flex-direction: column;
+  }
+
+  /* Hero title font size */
+  .hero-title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+  }
+
+  /* ── FOOTER ──────────────────────────────── */
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  /* ── SHOP PAGE ───────────────────────────── */
+  /* On tablet, collapse filter sidebar to a toggle overlay.
+     Show the mobile filter bar instead. */
+  .shop-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-sidebar {
+    display: none; /* Will be shown via JS toggle in Evaluation 2 */
+  }
+
+  .mobile-filter-bar {
+    display: flex;
+  }
+
+  .shop-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  /* ── PRODUCT DETAIL ──────────────────────── */
+  .product-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .gallery {
+    position: static; /* Remove sticky on small screens */
+  }
+
+  .related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* ── CART PAGE ───────────────────────────── */
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .order-summary {
+    position: static;
+  }
+
+  /* ── CHECKOUT PAGE ───────────────────────── */
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-summary {
+    position: static;
+  }
+
+  /* ── ACCOUNT PAGE ────────────────────────── */
+  .account-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ══════════════════════════════════════════════
+   MOBILE (max-width: 576px)
+   ══════════════════════════════════════════════ */
+@media (max-width: 576px) {
+
+  /* ── ROOT OVERRIDES ─────────────────────── */
+  :root {
+    --page-margin: 1rem;    /* 16px margins on mobile */
+    --navbar-height: 64px;  /* Slightly shorter navbar on mobile */
+  }
+
+  /* ── NAVBAR ─────────────────────────────── */
+  /* On mobile, also hide auth links to save space */
+  .nav-auth {
+    display: none;
+  }
+
+  /* Make hamburger more prominent */
+  .hamburger {
+    font-size: 1.75rem;
+  }
+
+  /* Mobile nav links in dropdown */
+  .nav-links {
+    top: 80px;
+    padding: 0.75rem 2.5rem;
+  }
+
+  .nav-link {
+    font-size: 1rem;
+    padding: 1rem 0;
+  }
+
+  /* Mobile dropdown shows auth links */
+  .site-header.nav-open .nav-auth {
+    display: flex;
+    flex-direction: column;
+    padding-block: 1rem;
+    border-top: 1px solid #F5F1EC;
+    gap: 0.75rem;
+  }
+
+  .site-header.nav-open .nav-login-link,
+  .site-header.nav-open .nav-signup-btn {
+    width: 100%;
+    text-align: center;
+    font-size: 0.875rem;
+    padding: 0.75rem;
+  }
+
+  /* ── HERO ────────────────────────────────── */
+  .hero {
+    min-height: 60vh;
+  }
+
+  .hero-title {
+    font-size: 1.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  /* ── SECTION SPACING ─────────────────────── */
+  .section {
+    padding-block: 3rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  /* ── HOME - CATEGORIES ───────────────────── */
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .category-card {
+    aspect-ratio: 1 / 1;
+  }
+
+  /* ── HOME - PRODUCTS ─────────────────────── */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  /* ── FEATURES STRIP ──────────────────────── */
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* ── FOOTER ──────────────────────────────── */
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-bottom-links {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* ── SHOP PAGE ───────────────────────────── */
+  .shop-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  /* ── PRODUCT DETAIL ──────────────────────── */
+  .gallery-thumbs {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .product-title {
+    font-size: 1.5rem;
+  }
+
+  .product-actions {
+    flex-wrap: wrap;
+  }
+
+  .btn-add-to-cart {
+    width: 100%;
+  }
+
+  .btn-add-wishlist {
+    width: 100%;
+    height: 52px;
+  }
+
+  .related-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  /* ── CART PAGE ───────────────────────────── */
+  .cart-item {
+    grid-template-columns: 80px 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .cart-item-right {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(26, 26, 26, 0.15);
+    margin-top: 0.5rem;
+  }
+
+  .cart-item-image {
+    width: 80px;
+    height: 90px;
+  }
+
+  /* ── CHECKOUT ────────────────────────────── */
+  .form-row-2 {
+    grid-template-columns: 1fr; /* Stack city+state, pin+phone vertically */
+  }
+
+  /* ── AUTH PAGES ──────────────────────────── */
+  .auth-card {
+    padding: 2rem 1.5rem;
+    border-radius: 0.75rem;
+  }
+
+  .auth-title {
+    font-size: 1.5rem;
+  }
+
+  /* ── WISHLIST PAGE ───────────────────────── */
+  .wishlist-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  /* ── ACCOUNT PAGE ────────────────────────── */
+  .account-orders-table {
+    font-size: 0.75rem;
+  }
+
+  /* Order table: hide some less critical columns on mobile */
+  .account-orders-table th:nth-child(2),
+  .account-orders-table td:nth-child(2) {
+    display: none;
+  }
+
+  /* ── 404 PAGE ────────────────────────────── */
+  .error-title {
+    font-size: 5rem;
+  }
+
+  /* ── CONFIRMATION PAGE ───────────────────── */
+  .confirmation-card {
+    padding: 2rem 1.25rem;
+  }
+
+  .confirmation-actions {
+    flex-direction: column;
+  }
+
+  .confirmation-actions .btn {
+    width: 100%;
+  }
+
+  /* ── CONTACT PAGE ────────────────────────── */
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── ABOUT PAGE ──────────────────────────── */
+  .about-hero-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── PRODUCT CARD OVERRIDES ──────────────── */
+  /* Smaller padding inside cards on mobile */
+  .product-card-body {
+    padding: 0.75rem;
+  }
+
+  .product-card-name {
+    font-size: 0.75rem;
+  }
+
+  .btn-add-cart {
+    padding: 0.5rem;
+    font-size: 0.625rem;
+  }
+
+  /* ── PRELOADER & AUTH GATE MOBILE ────────── */
+  .preloader-brand {
+    font-size: 1.5rem;
+  }
+
+  .preloader-progress-track {
+    width: 240px;
+    height: 6px;
+  }
+
+  .preloader-percentage {
+    font-size: 0.75rem;
+  }
+
+  .auth-gate-card {
+    padding: 1.75rem 1.25rem;
+    max-width: 92vw;
+    border-radius: 0.875rem;
+  }
+
+  .auth-gate-title {
+    font-size: 1.35rem;
+  }
+
+  .auth-gate-desc {
+    font-size: 0.8125rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+
+/* ══════════════════════════════════════════════
+   VERY SMALL MOBILE (max-width: 375px)
+   Extra tweaks for smallest screens (e.g. iPhone SE)
+   ══════════════════════════════════════════════ */
+@media (max-width: 375px) {
+  :root {
+    --page-margin: 0.875rem;
+  }
+
+  .products-grid,
+  .shop-grid,
+  .wishlist-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .auth-card {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* ══════════════════════════════════════════════
+   LARGE DESKTOP (min-width: 1440px)
+   Extra refinements for very wide screens
+   ══════════════════════════════════════════════ */
+@media (min-width: 1440px) {
+  :root {
+    --page-margin: 3rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .shop-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

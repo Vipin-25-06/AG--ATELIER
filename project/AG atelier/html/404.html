@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found — AG ATELIER</title>
+  <meta name="description" content="The page you're looking for doesn't exist. Head back to AG ATELIER and keep shopping." />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <style>
+    .error-page {
+      min-height: calc(100vh - var(--navbar-height));
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; background-color: var(--color-surface);
+      padding: var(--space-16) var(--space-4);
+    }
+    .error-content { max-width: 480px; }
+    .error-title {
+      font-family: var(--font-heading);
+      font-size: clamp(5rem, 15vw, 9rem);
+      font-weight: var(--weight-bold);
+      color: var(--color-linen);
+      line-height: 1;
+      margin-bottom: var(--space-4);
+    }
+    .error-heading {
+      font-family: var(--font-heading); font-size: var(--text-2xl);
+      font-weight: var(--weight-semibold); color: var(--color-onyx);
+      margin-bottom: var(--space-3);
+    }
+    .error-text {
+      font-size: var(--text-base); color: var(--color-text-muted);
+      margin-bottom: var(--space-8); line-height: 1.6;
+    }
+    .error-actions { display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; }
+  </style>
+  <link rel="stylesheet" href="../assets/css/preloader.css" />
+  <script src="../assets/js/preloader.js"></script>
+  <script src="../assets/js/auth.js"></script>
+</head>
+<body>
+  <div id="logged-in"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRELOADER OVERLAY (Pure CSS Progress Bar 0% - 100%)
+       Matches AG ATELIER UI/UX palette
+       ═══════════════════════════════════════════════ -->
+  <div class="site-preloader" id="site-preloader" aria-label="Loading AG ATELIER">
+    <div class="preloader-brand">AG ATELIER</div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar"></div>
+    </div>
+    <div class="preloader-percentage">Loading Website: </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       MANDATORY SIGN-IN GATE OVERLAY
+       Requires user to sign in before exploring the store
+       ═══════════════════════════════════════════════ -->
+  <div class="auth-gate-overlay" id="auth-gate-overlay" aria-modal="true" role="dialog">
+    <div class="auth-gate-card">
+      <span class="auth-gate-badge">MEMBER ACCESS ONLY</span>
+      <h2 class="auth-gate-title">Sign In Required</h2>
+      <p class="auth-gate-desc">
+        Welcome to <strong>AG ATELIER</strong>. Please sign in to your account
+        or register as a new member to access our store.
+      </p>
+      <div class="auth-gate-actions">
+        <a href="login.html" class="btn btn-primary btn-full" id="gate-btn-login">
+          🔑 Sign In to Continue
+        </a>
+        <a href="signup.html" class="btn btn-secondary btn-full" id="gate-btn-signup">
+          ✨ Create New Account
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- NAVBAR -->
+  <header class="site-header" id="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="index.html" class="nav-logo" id="nav-logo">AG ATELIER</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html"   class="nav-link" id="nav-home">Home</a></li>
+        <li><a href="shop.html"    class="nav-link" id="nav-shop">Shop</a></li>
+        <li><a href="about.html"   class="nav-link" id="nav-about">About Us</a></li>
+        <li><a href="contact.html" class="nav-link" id="nav-contact">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="wishlist.html" class="nav-icon-btn" id="nav-wishlist-btn" aria-label="View wishlist">🤍<span class="badge" id="wishlist-badge">2</span></a>
+        <a href="cart.html"     class="nav-icon-btn" id="nav-cart-btn"     aria-label="View shopping cart">🛍<span class="badge" id="cart-badge">3</span></a>
+        <div class="nav-auth" id="nav-auth-guest">
+          <a href="login.html"  class="nav-login-link" id="nav-login-link">Login</a>
+          <a href="signup.html" class="nav-signup-btn"  id="nav-signup-btn">Sign Up</a>
+        </div>
+      </div>
+      <button type="button" class="hamburger" id="hamburger-btn" data-action="toggle-menu"
+        aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </nav>
+  </header>
+
+  <main id="main-content" class="page-content">
+    <div class="error-page" id="error-page">
+      <div class="error-content">
+        <p class="error-title" id="error-code" aria-label="Error 404">404</p>
+        <h1 class="error-heading" id="error-heading">Page Not Found</h1>
+        <p class="error-text" id="error-text">
+          The page you're looking for seems to have wandered off. Let's get you back on track.
+        </p>
+        <div class="error-actions" id="error-actions">
+          <a href="index.html" class="btn btn-primary" id="error-btn-home">← Back to Home</a>
+          <a href="shop.html"  class="btn btn-secondary" id="error-btn-shop">Shop All</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>
