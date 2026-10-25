@@ -61,6 +61,7 @@
       <ul class="nav-links" id="nav-links">
         <li><a href="index.html"   class="nav-link"        id="nav-home">Home</a></li>
         <li><a href="shop.html"    class="nav-link active"  id="nav-shop">Shop</a></li>
+        <li><a href="sell.html" class="nav-link" id="nav-sell">Sell</a></li>
         <li><a href="about.html"   class="nav-link"        id="nav-about">About Us</a></li>
         <li><a href="contact.html" class="nav-link"        id="nav-contact">Contact Us</a></li>
       </ul>
@@ -100,6 +101,7 @@
       <!-- Page heading -->
       <div class="page-header">
         <h1 id="shop-heading">All Products</h1>
+        <a class="btn btn-secondary" href="sell.html">Sell with AG ATELIER</a>
       </div>
 
       <!-- Mobile filter bar (shown on tablet/mobile via responsive.css) -->
@@ -148,6 +150,14 @@
             </div>
           </div>
 
+          <div class="filter-group" id="filter-origin">
+            <h3 class="filter-group-title">Made by</h3>
+            <div class="filter-options">
+              <label class="filter-option"><input type="radio" name="origin" value="all" checked /> All products</label>
+              <label class="filter-option"><input type="radio" name="origin" value="atelier" /> AG ATELIER</label>
+              <label class="filter-option"><input type="radio" name="origin" value="artist" /> Local artists</label>
+            </div>
+          </div>
           <!-- Price range filter -->
           <div class="filter-group" id="filter-price">
             <h3 class="filter-group-title">Price Range</h3>

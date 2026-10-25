@@ -252,58 +252,25 @@
         <aside class="checkout-summary" id="checkout-summary" aria-label="Order summary">
           <h2 class="checkout-summary-title">Order Summary</h2>
 
-          <!-- Hardcoded order items (same as cart for the static demo) -->
-          <div id="checkout-order-items">
-
-            <div class="checkout-order-item" id="checkout-item-p001">
-              <div class="checkout-item-image">
-                <img src="../assets/images/products/p001-tee.jpg" alt="Essential Oversized Tee" />
-              </div>
-              <div class="checkout-item-info">
-                <p class="checkout-item-name">Essential Oversized Tee</p>
-                <p class="checkout-item-meta">Size: L | Qty: 1</p>
-              </div>
-              <p class="checkout-item-price">$45.00</p>
-            </div>
-
-            <div class="checkout-order-item" id="checkout-item-p002">
-              <div class="checkout-item-image">
-                <img src="../assets/images/products/p002-trousers.jpg" alt="Utility Cargo Pants" />
-              </div>
-              <div class="checkout-item-info">
-                <p class="checkout-item-name">Utility Cargo Pants</p>
-                <p class="checkout-item-meta">Size: M | Qty: 1</p>
-              </div>
-              <p class="checkout-item-price">$120.00</p>
-            </div>
-
-            <div class="checkout-order-item" id="checkout-item-p003">
-              <div class="checkout-item-image">
-                <img src="../assets/images/products/p003-jacket.jpg" alt="Canvas Structure Tote" />
-              </div>
-              <div class="checkout-item-info">
-                <p class="checkout-item-name">Canvas Structure Tote</p>
-                <p class="checkout-item-meta">One Size | Qty: 2</p>
-              </div>
-              <p class="checkout-item-price">$130.00</p>
-            </div>
-
-          </div>
+          <div id="checkout-order-items"></div>
 
           <div class="checkout-totals">
             <div class="checkout-total-row">
-              <span>Subtotal (4 items)</span><span>$295.00</span>
+              <span id="checkout-subtotal-label">Subtotal (0 items)</span><span id="checkout-subtotal">$0.00</span>
+            </div>
+            <div class="checkout-total-row" id="checkout-first-order-discount-row" hidden>
+              <span>First order discount</span><span id="checkout-first-order-discount">-$15.00</span>
             </div>
             <div class="checkout-total-row">
-              <span>Shipping</span><span>$9.99</span>
+              <span>Shipping</span><span id="checkout-shipping">$0.00</span>
             </div>
             <div class="checkout-total-row">
-              <span>Tax (8%)</span><span>$23.60</span>
+              <span>Tax (8%)</span><span id="checkout-tax">$0.00</span>
             </div>
           </div>
 
           <div class="checkout-grand-total">
-            <span>Total</span><span>$328.59</span>
+            <span>Total</span><span id="checkout-total">$0.00</span>
           </div>
 
           <button type="submit" form="checkout-form" class="btn btn-primary btn-full"

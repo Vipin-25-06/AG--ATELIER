@@ -259,7 +259,16 @@
   width: 32px;
   height: 32px;
   border-radius: 9999px;
-  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-color: #B5533C;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
   border: 2px solid #F5F1EC;
 }
 

@@ -146,6 +146,194 @@
     if (count) count.textContent = items.length + (items.length === 1 ? ' item' : ' items') + ' saved for later';
   }
 
+  function filterProducts(searchTerm) {
+    var grid = document.getElementById('shop-product-grid');
+    if (!grid) return;
+    var query = searchTerm.trim().toLocaleLowerCase();
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.product-card'));
+    var visibleCount = 0;
+    cards.forEach(function (card) {
+      var name = card.querySelector('.product-card-name');
+      var image = card.querySelector('img');
+      var searchableText = [
+        name ? name.textContent : '',
+        image ? image.alt : ''
+      ].join(' ').toLocaleLowerCase();
+      var matches = !query || searchableText.indexOf(query) !== -1;
+      var originFilter = document.querySelector('input[name=origin]:checked');
+      if (originFilter && originFilter.value !== 'all') matches = matches && (card.dataset.origin || 'atelier') === originFilter.value;
+      card.hidden = !matches;
+      card.style.display = matches ? '' : 'none';
+      if (matches) visibleCount += 1;
+    });
+    var count = document.getElementById('results-count');
+    if (count) count.textContent = query
+      ? 'Showing ' + visibleCount + ' of ' + cards.length + ' products'
+      : 'Showing ' + cards.length + ' products';
+    var empty = document.getElementById('product-search-empty');
+    if (!empty) {
+      empty = document.createElement('p');
+      empty.id = 'product-search-empty';
+      empty.className = 'empty-state';
+      empty.hidden = true;
+      grid.parentNode.insertBefore(empty, grid.nextSibling);
+    }
+    empty.textContent = 'No products found for "' + searchTerm.trim() + '".';
+    empty.hidden = !query || visibleCount > 0;
+  }
+
+  function initializeProductSearch() {
+    var input = document.getElementById('nav-search-input');
+    if (!input) return;
+    var parameters = new URLSearchParams(window.location.search || '');
+    var initialQuery = parameters.get('search') || '';
+    if (initialQuery) input.value = initialQuery;
+    filterProducts(initialQuery);
+    var sort = document.getElementById('sort-select');
+    if (sort) sort.addEventListener('change', sortProducts);
+    document.querySelectorAll('input[name=origin]').forEach(function (input) { input.addEventListener('change', function () { filterProducts(document.getElementById('nav-search-input').value); }); });
+    input.addEventListener('input', function () {
+      filterProducts(input.value);
+    });
+  }
+
+
+  var SELLER_PRODUCTS_KEY = 'ag-atelier-seller-products';
+
+  function sellerProducts() {
+    var items = read(SELLER_PRODUCTS_KEY, []);
+    return items.filter(function (item) {
+      return item && typeof item.id === 'string' && typeof item.name === 'string' &&
+        Number(item.price) > 0 && typeof item.image === 'string';
+    });
+  }
+
+  function renderSellerProducts() {
+    var grid = document.getElementById('shop-product-grid');
+    if (!grid) return;
+    sellerProducts().forEach(function (product) {
+      if (grid.querySelector('[data-product-id="' + product.id + '"]')) return;
+      var card = document.createElement('article');
+      card.className = 'product-card';
+      card.dataset.origin = product.origin === 'artist' ? 'artist' : 'atelier';
+      card.dataset.createdAt = product.createdAt || '';
+      var imageWrap = document.createElement('div');
+      imageWrap.className = 'product-card-image';
+      var image = document.createElement('img');
+      image.src = product.image;
+      image.alt = product.name;
+      imageWrap.appendChild(image);
+      var badge = document.createElement('span');
+      badge.className = 'product-card-badge badge-tag badge-new';
+      badge.textContent = product.origin === 'artist' ? 'LOCAL ARTIST' : 'AG ATELIER';
+      imageWrap.appendChild(badge);
+      var body = document.createElement('div');
+      body.className = 'product-card-body';
+      var title = document.createElement('h3');
+      title.className = 'product-card-name';
+      title.textContent = product.name;
+      body.appendChild(title);
+      var creator = document.createElement('p');
+      creator.className = 'product-card-creator';
+      creator.textContent = product.origin === 'artist' ? 'By ' + product.artist : 'By AG ATELIER';
+      body.appendChild(creator);
+      var priceWrap = document.createElement('div');
+      priceWrap.className = 'product-card-price';
+      var price = document.createElement('span');
+      price.className = 'price';
+      price.textContent = money(product.price);
+      priceWrap.appendChild(price);
+      body.appendChild(priceWrap);
+      var add = document.createElement('button');
+      add.type = 'button';
+      add.className = 'btn-add-cart';
+      add.dataset.action = 'add-to-cart';
+      add.dataset.productId = product.id;
+      add.textContent = 'Add to Cart';
+      body.appendChild(add);
+      card.appendChild(imageWrap);
+      card.appendChild(body);
+      grid.appendChild(card);
+    });
+  }
+
+  function sortProducts() {
+    var grid = document.getElementById('shop-product-grid');
+    var select = document.getElementById('sort-select');
+    if (!grid || !select) return;
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.product-card'));
+    cards.forEach(function (card, index) {
+      if (!card.dataset.featuredOrder) card.dataset.featuredOrder = String(index);
+      if (!card.dataset.origin) card.dataset.origin = 'atelier';
+    });
+    var mode = select.value;
+    cards.sort(function (a, b) {
+      if (mode === 'featured') return Number(a.dataset.featuredOrder) - Number(b.dataset.featuredOrder);
+      if (mode === 'newest') return (Date.parse(b.dataset.createdAt || '') || 0) - (Date.parse(a.dataset.createdAt || '') || 0);
+      var aPrice = Number((a.querySelector('.price-current, .price') || {}).textContent.replace(/[^0-9.]/g, '')) || 0;
+      var bPrice = Number((b.querySelector('.price-current, .price') || {}).textContent.replace(/[^0-9.]/g, '')) || 0;
+      if (mode === 'price-asc') return aPrice - bPrice;
+      if (mode === 'price-desc') return bPrice - aPrice;
+      if (mode === 'rating') {
+        var aRatingNode = a.querySelector('.rating-value');
+        var bRatingNode = b.querySelector('.rating-value');
+        return (Number(bRatingNode ? bRatingNode.textContent : 0) || 0) - (Number(aRatingNode ? aRatingNode.textContent : 0) || 0);
+      }
+      return 0;
+    });
+    cards.forEach(function (card) { grid.appendChild(card); });
+  }
+
+  function saveSellerProduct(name, price, image, origin, creator) {
+    var products = sellerProducts();
+    products.push({ id: 'seller-' + Date.now().toString(36), name: name, price: price, image: image, origin: origin, artist: creator, createdAt: new Date().toISOString() });
+    try {
+      write(SELLER_PRODUCTS_KEY, products);
+      window.location.href = 'shop.html';
+    } catch (error) {
+      var message = document.getElementById('seller-error');
+      if (message) {
+        message.textContent = 'Could not save this product. Try a smaller image or check browser storage.';
+        message.hidden = false;
+      }
+    }
+  }
+
+  function submitSellerProduct(form) {
+    var name = document.getElementById('seller-product-name').value.trim();
+    var price = Number(document.getElementById('seller-product-price').value);
+    var imageUrl = document.getElementById('seller-product-image').value.trim();
+    var imageFile = document.getElementById('seller-product-file').files[0];
+    var origin = document.getElementById('seller-product-origin').value;
+    var creator = document.getElementById('seller-product-creator').value.trim();
+    var message = document.getElementById('seller-error');
+    if (!name || !Number.isFinite(price) || price <= 0 || (!imageUrl && !imageFile) || (origin === 'artist' && !creator)) {
+      if (message) {
+        message.textContent = 'Enter product details and provide an image URL or choose an image file.';
+        message.hidden = false;
+      }
+      return;
+    }
+    if (imageFile) {
+      if (!imageFile.type || imageFile.type.indexOf('image/') !== 0) {
+        if (message) { message.textContent = 'Choose a valid image file.'; message.hidden = false; }
+        return;
+      }
+      if (imageFile.size > 1572864) {
+        if (message) { message.textContent = 'Please choose an image smaller than 1.5 MB.'; message.hidden = false; }
+        return;
+      }
+      var reader = new FileReader();
+      reader.onload = function () { saveSellerProduct(name, price, reader.result, origin, creator); };
+      reader.onerror = function () {
+        if (message) { message.textContent = 'Could not read that image. Please try another file.'; message.hidden = false; }
+      };
+      reader.readAsDataURL(imageFile);
+      return;
+    }
+    saveSellerProduct(name, price, imageUrl, origin, creator);
+  }
+
   function seed() {
     if (!localStorage.getItem(CART_KEY)) {
       var seededCart = [];
@@ -170,6 +358,22 @@
     }
   }
 
+  var originSelect = document.getElementById('seller-product-origin');
+  var creatorInput = document.getElementById('seller-product-creator');
+  if (originSelect && creatorInput) {
+    var updateCreatorRequirement = function () { creatorInput.required = originSelect.value === 'artist'; };
+    originSelect.addEventListener('change', updateCreatorRequirement);
+    updateCreatorRequirement();
+  }
+
+  document.addEventListener('submit', function (event) {
+    if (event.target && event.target.id === 'seller-product-form') {
+      event.preventDefault();
+      if (event.target.checkValidity()) submitSellerProduct(event.target);
+      else event.target.reportValidity();
+    }
+  });
+
   document.addEventListener('click', function (event) {
     var control = event.target.closest('[data-action]');
     if (!control) return;
@@ -186,7 +390,10 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     seed();
+    renderSellerProducts();
     registerCatalog();
+    initializeProductSearch();
+    sortProducts();
     renderCart();
     renderWishlist();
     updateBadges();
